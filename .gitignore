@@ -1,0 +1,8 @@
+*.un~
+*.sw*
+*.s
+*.jar
+.idea
+cov-int
+docs
+out
