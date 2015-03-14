@@ -66,6 +66,7 @@ a:hover {
 header {
   padding-top: 35px;
   padding-bottom: 25px;
+  text-align: center;
 }
 
 header h1 {
@@ -90,7 +91,7 @@ header h2 {
 }
 
 .inner {
-  width: 620px;
+  width: 640px;
   margin: 0 auto;
 }
 
@@ -150,6 +151,14 @@ a.button span {
   display: block;
   height: 23px;
   padding-left: 50px;
+}
+
+#download-pdf span {
+  background: transparent url(../images/pdf-icon.png) 12px 50% no-repeat;
+}
+
+#download-jar span {
+  background: transparent url(../images/jar-icon.png) 12px 50% no-repeat;
 }
 
 #download-zip span {
