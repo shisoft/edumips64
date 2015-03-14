@@ -348,6 +348,18 @@ footer a:hover {
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
 
+span.edumips {
+  font-weight: bold;
+}
+
+span.edumips span {
+  color: #d5000d;
+}
+
+p.news-title {
+  font-size: 1.2em;
+}
+
 /* #Media Queries
 ================================================== */
 

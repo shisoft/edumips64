@@ -42,7 +42,9 @@
           <h2>
 <a id="welcome" class="anchor" href="#welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome!</h2>
 
-<p>Welcome to the home page of EduMIPS64, a free (as in free speech) visual and cross-platform MIPS64 CPU Simulator.</p>
+<p>Welcome to the home page of 
+<span class="edumips">EduMIPS<span>64</span></span>,
+a free (as in free speech) visual and cross-platform MIPS64 CPU Simulator.</p>
 
 <p>The simulator was written in order to support Computer Architecture students with a free and cross-platform tool that allows them to run programs written in the MIPS64 assembly dialect and see how the CPU behaves during the execution, experimenting with various aspects of low-level programming that they learn throughout the course.</p>
 
@@ -53,8 +55,115 @@ simulator, but independently evolved soon after into a stand-alone open source
 application.</p>
         </section>
 
+        <section id="news">
+          <h2>News</h2>
+          <article class="news-item">
+            <p class="news-title"><time datetime="2013-06-01">2013-06-01</time>: Release 1.2 (codename: Ringsend)</p>
+            <p class="news-body">
+              <span class="edumips">EduMIPS<span>64</span></span>
+              1.2 is out! Lots of bugs have been fixed in this new version,
+              mainly related to the Dinero Frontend.  
+              <a href="https://github.com/lupino3/edumips64/blob/77614e135f6ec592a5adc6cec46d0ba10a65af8f/ChangeLog">Changelog</a>,
+              <a href="https://github.com/lupino3/edumips64/blob/e74e0caf08a583f75340f39885edc327f75973e5/RELEASE_NOTES"> release notes for 1.2</a>.
+              Downloadable files are available on 
+              <a href="https://github.com/lupino3/edumips64/releases/tag/1.2">GitHub</a>
+              and SourceForge.
+            </p>
+          </article>
+
+          <article class="news-item">
+            <p class="news-title"><time datetime="2013-05-05">2013-05-05</time>: Auto-build of JAR file via Travis CI</p>
+            <p class="news-body">
+              We added to our <a href="https://travis-ci.org/lupino3/edumips64">Travis CI</a>
+              <a href="https://github.com/lupino3/edumips64/blob/master/.travis.yml">configuration</a>
+              the
+              <a href="https://github.com/lupino3/edumips64/blob/master/utils/update-gh-pages.sh">automatic build of JAR files</a>,
+              so if you want to try the bleeding edge you can do it without
+              having to compile it. The URL pointing to the always up-to-date
+              JAR is 
+              <a href="http://lupino3.github.io/edumips64/edumips64-latest.jar">http://lupino3.github.io/edumips64/edumips64-latest.jar</a>.
+              Be aware that it might be unstable.
+            </p>
+          </article>
+
+          <article class="news-item">
+            <p class="news-title"><time datetime="2013-03-16">2013-03-16</time>: Release 1.1 (codename: Charleroi)</p>
+            <p class="news-body">
+              <span class="edumips">EduMIPS<span>64</span></span>
+              1.1 is out! This is mainly a bugfix release post-1.0. The main
+              areas of improvement for this version are correctness, internal
+              cleanliness and packageability: you can read about all the
+              changes in the 
+              <a href="https://github.com/lupino3/edumips64/blob/ca2ac46f5296479e80af0df88d5acab09ab0ad57/RELEASE_NOTES">release notes for 1.1</a>.
+            </p>
+          </article>
+
+          <article class="news-item">
+            <p class="news-title"><time datetime="2012-11-24">2012-11-24</time>: Release 1.0</p>
+            <p class="news-body">
+              Wow. After only 6 years, we finally released version 1.0 of
+              <span class="edumips">EduMIPS<span>64</span></span>
+              (codename: Philadelphia). The main new features since
+              0.5 are the Floating Point Unit (FPU) support and the
+              in-application HTML help. There are of course a lot of small bug
+              fixes and improvements, and you can read about that in the
+              <a href="https://github.com/lupino3/edumips64/blob/152b2711f7e0536e3318465e0fe955e95caca344/RELEASE_NOTES">release notes for 1.0</a>. 
+              The JAR file, source archive and PDF docs are available on 
+              <a href="https://sourceforge.net/projects/edumips64/">SourceForge</a>, 
+              while as usual the development happens on 
+              <a href="http://github.org/lupino3/edumips64">github</a>.
+            </p>
+          </article>
+
+          <article class="news-item">
+            <p class="news-title"><time datetime="2012-02-11">2012-02-11</time>: Code moved to github.org</p>
+            <p class="news-body">
+              All the source code has been moved to 
+              <a href="http://github.org/lupino3/edumips64">github</a>, 
+              the SVN repository has been retired.
+            </p>
+          </article>
+
+          <article class="news-item">
+            <p class="news-title"><time datetime="2011-12-22">2011-12-22</time>: Research paper published</p>
+            <p class="news-body">
+              A paper about 
+              <span class="edumips">EduMIPS<span>64</span></span>
+              has been published by the IEEE Transactions on Education; it is
+              about the usage of the simulator in undergraduate computer
+              architecture courses. You can find the pdf <a
+                href="edumips64-ieee-tedu.pdf">here</a>.
+            </p>
+          </article>
+        </section>
+        <section id="history">
+          <h2>History</h2>
+          <p>
+          The development of the simulator started in 2006, when a group of
+          students from the University of Catania decided that they didn't
+          want to be tied to the Windows operating system to complete their
+          Computer Architecture assignments. Also, writing a CPU simulator
+          from scratch sounded fun!
+          </p>
+
+          <p>
+          Most of the features were implemented in 2006, and after that only a
+          handful of developers kept adding features in 2007 and 2008. From
+          2008 on, the simulator has been maintained by 
+          <a href="https://github.com/lupino3">lupino3</a>, one of the
+          founders of the project.
+          </p>
+
+          <p>
+          The <a
+             href="https://github.com/lupino3/edumips64/blob/master/ChangeLog">ChangeLog</a>
+          offers a bit of history, but unfortunately the bulk of the
+          development (prior to 0.0.7) was not recorded as it happened via
+          email using lupino3 as a human VCS.
+          </p>
+        </section>
+
         <footer>
-          EduMIPS64 is maintained by <a href="https://github.com/lupino3">lupino3</a><br>
           This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
