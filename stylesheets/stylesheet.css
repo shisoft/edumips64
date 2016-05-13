@@ -151,6 +151,7 @@ a.button span {
   display: block;
   height: 23px;
   padding-left: 50px;
+  font-size: 13px;
 }
 
 #download-pdf span {
