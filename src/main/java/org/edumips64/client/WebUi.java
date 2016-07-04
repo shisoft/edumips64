@@ -109,6 +109,10 @@ public class WebUi implements EntryPoint {
     }
   }
 
+  public State getState() {
+    return state;
+  }
+
   public Memory getMemory() {
     return cpu.getMemory();
   }
