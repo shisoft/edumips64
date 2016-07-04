@@ -45,6 +45,17 @@
                       }
                   }
                   // TODO: run the program and handle exceptions.
+                  try {
+                      while(true) {
+                        simulator.step();
+                        console.dir(simulator.getState());
+                        console.log(simulator.getState().name);
+                      }
+                  } catch(e) {
+                    console.log(e);
+                    console.log(simulator.getRegisters());
+                    console.dir(simulator.getRegisters());
+                  }
               });
           });
       </script>
