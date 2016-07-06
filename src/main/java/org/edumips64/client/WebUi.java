@@ -4,24 +4,11 @@ import com.google.gwt.core.client.EntryPoint;
 
 import jsinterop.annotations.JsType;
 
-import org.edumips64.core.CPU;
-import org.edumips64.core.IrregularWriteOperationException;
-import org.edumips64.core.Memory;
-import org.edumips64.core.MemoryElementNotFoundException;
-import org.edumips64.core.NotAlignException;
-import org.edumips64.core.Parser;
-import org.edumips64.core.ParserMultiException;
-import org.edumips64.core.Register;
-import org.edumips64.core.StoppedCPUException;
-import org.edumips64.core.SynchronousException;
+import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPDividerNotAvailableException;
 import org.edumips64.core.fpu.FPFunctionalUnitNotAvailableException;
 import org.edumips64.core.fpu.MemoryNotAvailableException;
-import org.edumips64.core.is.AddressErrorException;
-import org.edumips64.core.is.BreakException;
-import org.edumips64.core.is.HaltException;
-import org.edumips64.core.is.TwosComplementSumException;
-import org.edumips64.core.is.WAWException;
+import org.edumips64.core.is.*;
 import org.edumips64.utils.ConfigStore;
 import org.edumips64.utils.ConfigManager;
 import org.edumips64.utils.IrregularStringOfBitsException;
@@ -114,7 +101,7 @@ public class WebUi implements EntryPoint {
   }
 
   public Memory getMemory() {
-    return cpu.getMemory();
+    return memory;
   }
 
   public Register[] getRegisters() {
@@ -127,7 +114,7 @@ public class WebUi implements EntryPoint {
   }
 
   public String getMemoryString() {
-    return cpu.getMemory().toString();
+    return memory.toString();
   }
 
   public String getRegistersString() {
