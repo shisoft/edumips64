@@ -57,11 +57,6 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     Register pc = cpu.getPC();
     String pc_old = cpu.getPC().getBinString();
 
-    //subtracting 4 to the pc_old temporary variable using bitset64 safe methods
-    BitSet64 bs_temp = new BitSet64();
-    bs_temp.writeDoubleWord(-4);
-    pc_old = InstructionsUtils.twosComplementSum(pc_old, bs_temp.getBinString());
-
     //updating program counter
     String pc_new = InstructionsUtils.twosComplementSum(pc_old, offset);
     pc.setBits(pc_new, 0);

@@ -17,12 +17,6 @@ public class CPUTest extends BaseTest {
     cpu = new CPU(m, config, new BUBBLE());
   }
 
-  @Test(expected = StoppedCPUException.class)
-  public void testRunningWhenStoppedThrowsException() throws Exception {
-    cpu.setStatus(CPU.CPUStatus.HALTED);
-    cpu.step();
-  }
-
   /** This test is not very useful, but it does improve test coverage. */
   @Test
   public void testToString() throws Exception {

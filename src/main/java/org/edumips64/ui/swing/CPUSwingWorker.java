@@ -160,9 +160,6 @@ public class CPUSwingWorker extends SwingWorker<Void, Void> {
 
       try {
         cpu.step();
-      } catch (StoppedCPUException ex) {
-        logger.info("CPUGUIThread: CPU was stopped");
-        break;
       } catch (BreakException ex) {
         break;
       } catch (SynchronousException ex) {

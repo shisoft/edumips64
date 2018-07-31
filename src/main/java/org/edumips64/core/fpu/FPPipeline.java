@@ -192,8 +192,28 @@ public class FPPipeline {
 
   // Returns the completed FP instruction. If more than one instruction completed, it will return them in the following
   // order: 1. divider; 2. multiplier; 3. adder. If no instruction is complete, it'll return null.
-  // The returned instruction will be removed from the corresponding FPU unit.
+  // The returned instruction will not be removed from the corresponding FPU unit.
   public InstructionInterface getCompletedInstruction() {
+    InstructionInterface dividerInstruction = divider.getInstruction();
+    InstructionInterface multiplierInstruction = multiplier.getInstruction();
+    InstructionInterface adderInstruction = adder.getInstruction();
+
+    if (dividerInstruction != null) {
+      return dividerInstruction;
+    }
+
+    if (multiplierInstruction != null) {
+      return multiplierInstruction;
+    }
+
+    if (adderInstruction != null) {
+      return adderInstruction;
+    }
+
+    return null;
+  }
+
+  public void cleanCompletedInstruction() {
     InstructionInterface dividerInstruction = divider.getInstruction();
     InstructionInterface multiplierInstruction = multiplier.getInstruction();
     InstructionInterface adderInstruction = adder.getInstruction();
@@ -201,22 +221,21 @@ public class FPPipeline {
     if (dividerInstruction != null) {
       divider.removeLast();
       nInstructions--;
-      return dividerInstruction;
+      return;
     }
 
     if (multiplierInstruction != null) {
       multiplier.removeLast();
       nInstructions--;
-      return multiplierInstruction;
+      return;
     }
 
     if (adderInstruction != null) {
       adder.removeLast();
       nInstructions--;
-      return adderInstruction;
+      return;
     }
 
-    return null;
   }
 
   /* Shifts instructions into the functional units and calls the EX() method for instructions in the first step

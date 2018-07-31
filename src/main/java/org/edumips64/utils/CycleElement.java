@@ -138,13 +138,14 @@ public class CycleElement {
   // Map that associates to a given state the set of allowed successor states.
   // The states that are not added in the list are not checked.
   // TODO: complete the map (it does not contain all possible transitions).
+  // TODO: remove some stages after fixing issue 48.
   private static Map<String, Set<String>> allowedTransitions;
   static {
     allowedTransitions = new HashMap<>();
-    allowedTransitions.put("IF", new HashSet<>(Arrays.asList("ID", " ")));
+    allowedTransitions.put("IF", new HashSet<>(Arrays.asList("ID", " ", "RAW", "WAW")));
     allowedTransitions.put("ID", new HashSet<>(Arrays.asList("ID", "EX", "RAW", "WAW", "DIV", "StDiv", "StEx", "StFun", "A1", "M1")));
-    allowedTransitions.put("RAW", new HashSet<>(Arrays.asList("RAW", "WAW", "EX", "M1", "A1")));
-    allowedTransitions.put("WAW", new HashSet<>(Arrays.asList("WAW", "EX", "M1", "A1")));
+    allowedTransitions.put("RAW", new HashSet<>(Arrays.asList("RAW", "WAW", "ID", "M1", "A1")));
+    allowedTransitions.put("WAW", new HashSet<>(Arrays.asList("WAW", "EX", "M1", "A1", "ID")));
 
     allowedTransitions.put("EX", new HashSet<>(Arrays.asList("MEM", "Str")));
     allowedTransitions.put("MEM", new HashSet<>(Arrays.asList("WB")));
