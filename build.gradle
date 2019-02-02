@@ -6,6 +6,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.dorongold.task-tree' version '1.3.1'
+    id "de.esoco.gwt" version "1.0.7"
 }
 
 repositories {
@@ -21,6 +22,10 @@ dependencies {
 mainClassName = 'org.edumips64.Main'
 version = '1.2.5'
 ext.codename = 'Eden'
+
+gwt {
+    module 'org.edumips64.webclient'
+}
 
 /* 
  * Documentation tasks
