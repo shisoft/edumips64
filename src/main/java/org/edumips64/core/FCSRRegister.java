@@ -106,7 +106,7 @@ public class FCSRRegister extends BitSet32 {
    * @param cc        condition code is an int value in the range [0,7]
    * @param condition the binary value of the relative bit
    */
-  void setFCSRConditionCode(int cc, int condition) throws IrregularStringOfBitsException {
+  public void setFCSRConditionCode(int cc, int condition) throws IrregularStringOfBitsException {
     final int FCC0 = 8;
     final int DISCONTINUITY = 1;
     final int OFFSET = FCC0 - DISCONTINUITY;

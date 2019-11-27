@@ -6,6 +6,10 @@ import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.fpu.FPOverflowException;
 import org.edumips64.core.fpu.FPUnderflowException;
 
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+
 /** Interface representing an instruction. It is essentially the view of an instruction
 * that the CPU has, and its purpose is breaking the circular dependency between the CPU class
 * and the Instruction class.*/
@@ -70,4 +74,9 @@ public interface InstructionInterface {
   boolean isBubble();
 
   void setLabel(String label);
+
+  Register rs();
+  Register rt();
+  Register rd();
+  OptionalLong imme();
 }
