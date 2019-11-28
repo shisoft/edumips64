@@ -2,9 +2,15 @@ package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.tomasulo.CommonDataBus;
 
-public class FPMultipliers extends FunctionUnit {
-    public FPMultipliers(int id, CommonDataBus cdb) {
+public class FPDividers extends FunctionUnit {
+
+    public FPDividers(int id, CommonDataBus cdb) {
         super(id, cdb);
+    }
+
+    @Override
+    public void step() {
+
     }
 
     @Override
@@ -24,6 +30,8 @@ public class FPMultipliers extends FunctionUnit {
 
     @Override
     public Type fuType() {
-        return Type.FPMultiplier;
+        return Type.FPDivider;
     }
+
+
 }

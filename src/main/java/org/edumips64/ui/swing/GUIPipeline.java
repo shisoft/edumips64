@@ -25,6 +25,7 @@ package org.edumips64.ui.swing;
 import org.edumips64.core.Memory;
 import org.edumips64.core.Pipeline;
 import org.edumips64.core.is.InstructionInterface;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 import org.edumips64.utils.ConfigKey;
 import org.edumips64.utils.ConfigStore;
 
@@ -45,7 +46,7 @@ class GUIPipeline extends GUIComponent {
 
   private Map <Pipeline.Stage, InstructionInterface> pipeline;
 
-  GUIPipeline(CPU cpu, Memory memory, ConfigStore config) {
+  GUIPipeline(TomasuloCPU cpu, Memory memory, ConfigStore config) {
     super(cpu, memory, config);
     numMultiplier = 7;
     numAdder = 4;

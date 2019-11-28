@@ -32,7 +32,10 @@ import java.util.logging.Logger;
  * @author Salvatore Scellato
  */
 public class Register extends BitSet64 {
+
   private String name;
+  // the function unit id for the result
+  private Integer result;
 
   public final static Logger logger = Logger.getLogger(Register.class.getName());
 
@@ -73,5 +76,13 @@ public class Register extends BitSet64 {
     } //Impossibile che si verifichi
 
     return s;
+  }
+
+  public Integer getResult() {
+    return result;
+  }
+
+  public void setResult(Integer result) {
+    this.result = result;
   }
 }

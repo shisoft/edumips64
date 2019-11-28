@@ -23,6 +23,7 @@
 
 package org.edumips64.ui.swing;
 import org.edumips64.core.*;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 import org.edumips64.utils.ConfigKey;
 import org.edumips64.utils.ConfigStore;
 
@@ -34,14 +35,14 @@ import java.awt.*;
 */
 abstract class GUIComponent {
   Container cont;
-  protected CPU cpu;
+  protected TomasuloCPU cpu;
   protected Memory memory;
   protected ConfigStore config;
 
   Font font;
   float scalingDenominator = 12.0f;
 
-  GUIComponent(CPU cpu, Memory memory, ConfigStore config) {
+  GUIComponent(TomasuloCPU cpu, Memory memory, ConfigStore config) {
     cont = null;
     this.cpu = cpu;
     this.memory = memory;

@@ -1,7 +1,11 @@
 package org.edumips64.core.tomasulo.fu;
 
-import org.edumips64.core.is.InstructionInterface;
+import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.IrregularWriteOperationException;
+import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.is.*;
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 import java.util.HashMap;
 import java.util.OptionalLong;
@@ -9,11 +13,19 @@ import java.util.OptionalLong;
 public abstract class FunctionUnit {
     private int id;
     private ReservationStation reservationStation;
-    private int Op;
     private Status status;
     private CommonDataBus cdb;
     private InstructionInterface instruction;
-    private HashMap<Integers, Integers> registerStatus;
+    private TomasuloCPU cpu;
+
+    public FunctionUnit(int id, TomasuloCPU cpu) {
+        this.id = id;
+        this.reservationStation = new ReservationStation();
+        this.status = Status.Idle;
+        this.cdb =  cpu.getCdb();
+        this.cpu = cpu;
+        this.instruction = null;
+    }
 
     public int getId() {
         return id;
@@ -90,12 +102,8 @@ public abstract class FunctionUnit {
         return this.instruction;
     }
 
-    public boolean issue(InstructionInterface instruction) {
-        if (this.instruction == null) {
-
-            if (registerStatus[instruction.get])
-            this.instruction = instruction;
-        }
+    public boolean issue(InstructionInterface instruction) throws WAWException, IrregularWriteOperationException, StoppingException, BreakException, FPInvalidOperationException, TwosComplementSumException, JumpException, IrregularStringOfBitsException {
+        instruction.ISSUE();
         return false;
     }
 
@@ -104,4 +112,6 @@ public abstract class FunctionUnit {
     public abstract int steps_remain();
 
     abstract long get_fu_result();
+
+    public abstract Type fuType();
 }

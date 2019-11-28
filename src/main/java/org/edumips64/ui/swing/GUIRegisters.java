@@ -25,6 +25,7 @@ package org.edumips64.ui.swing;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.RegisterFP;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 import org.edumips64.utils.*;
 
 import java.awt.BorderLayout;
@@ -72,7 +73,7 @@ class GUIRegisters extends GUIComponent {
 
   private StatusBar statusbar;
 
-  GUIRegisters(CPU cpu, Memory memory, ConfigStore config, StatusBar sb) {
+  GUIRegisters(TomasuloCPU cpu, Memory memory, ConfigStore config, StatusBar sb) {
     super(cpu, memory, config);
     registers = cpu.getRegisters();
     registersFP = cpu.getRegistersFP();

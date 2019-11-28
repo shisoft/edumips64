@@ -1,10 +1,14 @@
 package org.edumips64.core.tomasulo.fu;
 
+import org.edumips64.core.Memory;
 import org.edumips64.core.tomasulo.CommonDataBus;
 
-public class FPMultipliers extends FunctionUnit {
-    public FPMultipliers(int id, CommonDataBus cdb) {
+public class FuMemory extends FunctionUnit {
+    Memory memory;
+
+    public FuMemory(int id, CommonDataBus cdb, Memory memory) {
         super(id, cdb);
+        this.memory = memory;
     }
 
     @Override
@@ -24,6 +28,6 @@ public class FPMultipliers extends FunctionUnit {
 
     @Override
     public Type fuType() {
-        return Type.FPMultiplier;
+        return Type.Memory;
     }
 }

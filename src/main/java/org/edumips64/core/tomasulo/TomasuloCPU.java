@@ -29,9 +29,10 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import org.edumips64.core.*;
+import org.edumips64.core.Memory;
 import org.edumips64.core.fpu.*;
 import org.edumips64.core.is.*;
-import org.edumips64.core.tomasulo.fu.ReservationStation;
+import org.edumips64.core.tomasulo.fu.*;
 import org.edumips64.utils.*;
 
 /** This class models a MIPS CPU with 32 64-bit General Purpose Registers.
@@ -50,7 +51,8 @@ public class TomasuloCPU {
     private Register pc, old_pc;
     private Register LO, HI;
 
-    private List<ReservationStation> reservationStations;
+    private List<FunctionUnit> fus;
+    private CommonDataBus cdb;
 
     /** CPU status.
      *  READY - the CPU has been initialized but the symbol table hasn't been
@@ -124,6 +126,28 @@ public class TomasuloCPU {
 
         FCSR = new FCSRRegister();
         configFPExceptionsAndRM();
+
+        // initialize function units
+        this.cdb = new CommonDataBus();
+        this.fus = new ArrayList<>();
+        int num_fus = 0;
+        for (int i = 0; i < this.config.getInt(ConfigKey.INT_ADDERS); i++) {
+            this.fus.add(new Integers(num_fus, cdb));
+            num_fus ++;
+        }
+        for (int i = 0; i < this.config.getInt(ConfigKey.FP_ADDERS); i++) {
+            this.fus.add(new FPAdders(num_fus, cdb));
+            num_fus ++;
+        }
+        for (int i = 0; i < this.config.getInt(ConfigKey.FP_MULTIPLIERS); i++) {
+            this.fus.add(new FPMultipliers(num_fus, cdb));
+            num_fus ++;
+        }
+        for (int i = 0; i < this.config.getInt(ConfigKey.FP_DIVIDERS); i++) {
+            this.fus.add(new FPDividers(num_fus, cdb));
+            num_fus ++;
+        }
+        this.fus.add(new FuMemory(num_fus, cdb, memory));
 
         logger.info("Tomasulo CPU Created.");
     }
@@ -308,6 +332,10 @@ public class TomasuloCPU {
         return memoryStalls;
     }
 
+    public CommonDataBus getCdb() {
+        return cdb;
+    }
+
     /** This method performs a single pipeline step
      */
     public void step() throws AddressErrorException, HaltException, IrregularWriteOperationException, StoppedCPUException, MemoryElementNotFoundException, IrregularStringOfBitsException, TwosComplementSumException, SynchronousException, BreakException, NotAlignException {
@@ -317,38 +345,13 @@ public class TomasuloCPU {
             throw new StoppedCPUException();
         }
 
+        cycles ++;
         try {
-            // Stages are executed from the last one (WB) to the first one (IF). After the
-            // logic for the given stage is executed, the instruction is moved to the next
-            // stage (except for WB, where the instruction is discarded.
-            logger.info("\n\nStarting cycle " + ++cycles + "\n---------------------------------------------");
+            InstructionInterface next_if = mem.getInstruction(pc);
+            logger.info("Fetched new instruction " + next_if);
 
-            // WB: Write-back stage.
-            stepWB();
-
-            // MEM: Memory access stage.
-            stepMEM();
-
-            // EX: Execution/effective address stage.
-            // Returns the code of the synchronous exception that can happen at this
-            // stage, so the rest of the step can continue and, at the end, the
-            // exception can be thrown.
-            syncex = stepEX();
-
-            // ID: instruction decode / register fetch stage. The RAW exception is handled
-            // via a return value instead of an exception because throwing exceptions proved
-            // to be a bottleneck in large programs. (See docs for Instruction.ID()).
-            boolean rawException = stepID();
-            if (rawException) {
-                throw new RAWException();
-            }
-
-            // IF: instruction fetch stage.
-            stepIF();
-
-            if (syncex.isPresent()) {
-                throw new SynchronousException(syncex.get());
-            }
+            old_pc.writeDoubleWord((pc.getValue()));
+            pc.writeDoubleWord((pc.getValue()) + 4);
         } catch (JumpException ex) {
             logger.info("Executing a Jump.");
             try {
@@ -405,7 +408,7 @@ public class TomasuloCPU {
             throw ex;
 
         } catch (HaltException ex) {
-            setStatus(org.edumips64.core.CPU.CPUStatus.HALTED);
+            setStatus(CPUStatus.HALTED);
             pipe.setWB(null);
             // The last tick does not execute a full CPU cycle, it just removes the last instruction from the pipeline.
             // Decrementing the cycles counter by one.
@@ -415,6 +418,15 @@ public class TomasuloCPU {
         } finally {
             logger.info("End of cycle " + cycles + "\n---------------------------------------------\n" + pipeLineString() + "\n");
         }
+    }
+
+    private boolean reserve(InstructionInterface ins) {
+        for (FunctionUnit fu : this.fus) {
+            if (fu.fuType() == ins.getFUType() && fu.getStatus() == Status.Idle) {
+                return fu.issue(ins);
+            }
+        }
+        return false;
     }
 
     // Individual stages, in execution order (WB, MEM, EX, ID, IF).
@@ -731,7 +743,7 @@ public class TomasuloCPU {
                 FCSR.setFCSRRoundingMode(FCSRRegister.FPRoundingMode.TOWARDS_MINUS_INFINITY);
             }
         } catch (IrregularStringOfBitsException ex) {
-            Logger.getLogger(org.edumips64.core.CPU.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TomasuloCPU.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
