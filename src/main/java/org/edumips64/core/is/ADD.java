@@ -26,6 +26,7 @@
 
 package org.edumips64.core.is;
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -60,17 +61,8 @@ class ADD extends ALU_RType {
     //comparison between the two most significant bits of the outputstring and
     //raising integer overflow if the first bit is different from the second one
     if (outputstring.charAt(0) != outputstring.charAt(1)) {
-      //if the enable forwarding is turned on we have to ensure that registers
-      //should be unlocked also if a synchronous exception occurs. This is performed
-      //by executing the WB method before raising the trap
-      if (cpu.isEnableForwarding()) {
-        doWB();
-      }
-
       throw new IntegerOverflowException();
-    }
-
-    else {
+    } else {
       //performing sign extension
       outputstring = outputstring.substring(1, 33);
       String filledOutputstring = outputstring;
@@ -81,10 +73,9 @@ class ADD extends ALU_RType {
 
       TR[RD_FIELD].setBits(filledOutputstring, 0);
     }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
-
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

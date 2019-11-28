@@ -5,6 +5,7 @@ import org.edumips64.core.fpu.FPDivideByZeroException;
 import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.fpu.FPOverflowException;
 import org.edumips64.core.fpu.FPUnderflowException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -38,7 +39,7 @@ public interface InstructionInterface {
    * Windows).
    *</pre>
    **/
-  boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException;
+  boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException;
 
   /**
    * <pre>
@@ -48,14 +49,6 @@ public interface InstructionInterface {
    **/
 
   void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException;
-
-  /**
-   * <pre>
-   * Memory stage of the Pipeline
-   * In this stage all Load and Store instructions access memory for getting or putting data
-   * </pre>
-   **/
-  void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException;
 
   /**
    * <pre>
@@ -75,8 +68,5 @@ public interface InstructionInterface {
 
   void setLabel(String label);
 
-  Register rs();
-  Register rt();
-  Register rd();
-  OptionalLong imme();
+  Type getFUType();
 }

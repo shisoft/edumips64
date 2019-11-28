@@ -1,6 +1,9 @@
 package org.edumips64.core.tomasulo.fu;
 
 public class ReservationStation {
+
+    private Type rsType;
+
     private boolean busy;
     private int op;
     private Long valueJ;
@@ -63,5 +66,9 @@ public class ReservationStation {
 
     public void setImme(Long imme) {
         this.imme = imme;
+    }
+
+    public Type getRsType() {
+        return rsType;
     }
 }

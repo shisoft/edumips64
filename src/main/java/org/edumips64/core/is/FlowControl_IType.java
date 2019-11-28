@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /** This is the base class for immediate flow control instructions
  *
@@ -69,7 +70,7 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     throw new JumpException();
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     return false;
   }
 
@@ -89,4 +90,8 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD) / 4), OFFSET_FIELD_INIT);
   }
 
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

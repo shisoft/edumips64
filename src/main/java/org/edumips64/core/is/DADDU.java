@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -54,9 +55,10 @@ public class DADDU extends ALU_RType {
     String outputstring = InstructionsUtils.twosComplementSum(rs, rt);
     //There isn't IntegerOverflow cases
     TR[RD_FIELD].setBits(outputstring, 0);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

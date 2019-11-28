@@ -59,26 +59,15 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
     fpInstructionUtils = new FPInstructionUtils(fcsr);
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if source registers are valid passing their own values into temporary registers
     RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-
-    if (fs.getWriteSemaphore() > 0 || ft.getWriteSemaphore() > 0) {
-      return true;
-    }
 
     TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
     TRfp[FT_FIELD].setBits(ft.getBinString(), 0);
     //locking the destination register
     RegisterFP fd = cpu.getRegisterFP(params.get(FD_FIELD));
-
-    if (fd.getWAWSemaphore() > 0) {
-      throw new WAWException();
-    }
-
-    fd.incrWriteSemaphore();
-    fd.incrWAWSemaphore();
     return false;
   }
 
@@ -95,10 +84,6 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
       //if the enable forwarding is turned on we have to ensure that registers
       //should be unlocked also if a synchronous exception occurs. This is performed
       //by executing the WB method before raising the trap
-      if (cpu.isEnableForwarding()) {
-        doWB();
-      }
-
       if (ex instanceof FPInvalidOperationException) {
         throw new FPInvalidOperationException();
       } else if (ex instanceof FPUnderflowException) {
@@ -111,28 +96,21 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
         throw new IrregularStringOfBitsException();
       }
     }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
   protected abstract String doFPArith(String operand1, String operand2) throws FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, IrregularStringOfBitsException;
 
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-    cpu.getRegisterFP(params.get(FD_FIELD)).decrWAWSemaphore();
+
   }
 
   public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
+    doWB();
   }
 
   public void doWB() throws IrregularStringOfBitsException {
     //passing result from temporary register to destination register and unlocking it
     cpu.getRegisterFP(params.get(FD_FIELD)).setBits(TRfp[FD_FIELD].getBinString(), 0);
-    cpu.getRegisterFP(params.get(FD_FIELD)).decrWriteSemaphore();
 
   }
 

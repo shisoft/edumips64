@@ -65,9 +65,5 @@ class CVT_D_L extends FPConversionFCSRInstructions {
     } else {
       TRfp[FD_FIELD].writeDouble(bd.doubleValue());
     }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 }

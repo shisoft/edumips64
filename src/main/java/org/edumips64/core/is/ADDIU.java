@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.*;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -40,6 +41,7 @@ import org.edumips64.core.*;
 
 class ADDIU extends ALU_IType {
   private final String OPCODE_VALUE = "001001";
+
   ADDIU() {
     super.OPCODE_VALUE = OPCODE_VALUE;
     this.name = "ADDIU";
@@ -62,9 +64,10 @@ class ADDIU extends ALU_IType {
     }
 
     TR[RT_FIELD].setBits(filledOutputstring, 0);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

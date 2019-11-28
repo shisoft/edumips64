@@ -33,63 +33,11 @@ import org.edumips64.core.fpu.BitSet64FP;
  * @author Massimo Trubia
  */
 public class RegisterFP extends BitSet64FP {
-  private int writeSemaphore;
-  private int WAWSemaphore;
   private String name;
 
   /** Creates a default new instance of Register. */
   public RegisterFP(String name) {
-    writeSemaphore = 0;
-    WAWSemaphore = 0;
     this.name = name;
-  }
-
-  /** Returns the value of the semaphore
-   *  @return the numerical value of the semaphore
-   */
-  public int getWriteSemaphore() {
-    return writeSemaphore;
-  }
-
-  /** Returns the value of the semaphore
-   *  @return the numerical value of the semaphore
-   */
-  public int getWAWSemaphore() {
-    return WAWSemaphore;
-  }
-
-  /** Increments the value of the semaphore
-   */
-  public void incrWAWSemaphore() {
-    WAWSemaphore++;
-  }
-
-  /** Increments the value of the semaphore
-   */
-  public void incrWriteSemaphore() {
-    writeSemaphore++;
-  }
-
-  /** Decrements the value of the semaphore.
-   *  It throws a <code>RuntimeException</code> if the semaphore value gets below zero, because
-   *  the value becomes negative only in case of programming errors, and the EduMIPS64 team
-   *  doesn't make any programming error.
-   */
-  public void decrWriteSemaphore() {
-    if (--writeSemaphore < 0) {
-      throw new RuntimeException("write semaphore for " + name + " reached a negative value.");
-    }
-  }
-
-  /** Decrements the value of the semaphore.
-   *  It throws a <code>RuntimeException</code> if the semaphore value gets below zero, because
-   *  the value becomes negative only in case of programming errors, and the EduMIPS64 team
-   *  doesn't make any programming error.
-   */
-  public void decrWAWSemaphore() {
-    if (--WAWSemaphore < 0) {
-      throw new RuntimeException("WAW semaphore for " + name + " reached a negative value.");
-    }
   }
 
   /**Returns a string with a double value or the name of a special value
@@ -104,8 +52,6 @@ public class RegisterFP extends BitSet64FP {
    */
   public void reset() {
     super.reset(false);
-    writeSemaphore = 0;
-    WAWSemaphore = 0;
   }
 
 

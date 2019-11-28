@@ -46,13 +46,8 @@ public class BEQZ extends FlowControl_IType {
     name = "BEQZ";
   }
 
-  public boolean ID()
+  public boolean ISSUE()
       throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //getting registers rs and rt
-    if (cpu.getRegister(params.get(RS_FIELD)).getWriteSemaphore() > 0) {
-      return true;
-    }
-
     String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
     String zero = Converter.positiveIntToBin(64, 0);
     boolean condition = rs.equals(zero);

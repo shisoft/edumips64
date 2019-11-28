@@ -25,6 +25,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 import java.math.BigInteger;
 
@@ -56,20 +57,14 @@ class DDIVU extends ALU_RType {
     syntax = "%R,%R";
     name = "DDIVU";
   }
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if source registers are valid passing their own values into temporary registers
     Register rs = cpu.getRegister(params.get(RS_FIELD));
     Register rt = cpu.getRegister(params.get(RT_FIELD));
 
-    if (rs.getWriteSemaphore() > 0 || rt.getWriteSemaphore() > 0) {
-      return true;
-    }
-
     TR[RS_FIELD] = rs;
     TR[RT_FIELD] = rt;
-    //locking the destination registers (quotient and remainder)
-    cpu.getLO().incrWriteSemaphore();
-    cpu.getHI().incrWriteSemaphore();
+
     return false;
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, DivisionByZeroException {
@@ -84,11 +79,6 @@ class DDIVU extends ALU_RType {
     try {
       result = rs.divideAndRemainder(rt);
     } catch (ArithmeticException e) {
-      if (cpu.isEnableForwarding()) {
-        cpu.getLO().decrWriteSemaphore();
-        cpu.getHI().decrWriteSemaphore();
-      }
-
       throw new DivisionByZeroException();
     }
 
@@ -108,16 +98,10 @@ class DDIVU extends ALU_RType {
     }
 
     TR[HI_REG].setBits(tmp, 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
   public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
+    doWB();
   }
   public void doWB() throws IrregularStringOfBitsException {
     //passing results from temporary registers to destination registers and unlocking them
@@ -125,13 +109,16 @@ class DDIVU extends ALU_RType {
     Register hi = cpu.getHI();
     lo.setBits(TR[LO_REG].getBinString(), 0);
     hi.setBits(TR[HI_REG].getBinString(), 0);
-    lo.decrWriteSemaphore();
-    hi.decrWriteSemaphore();
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);
     repr.setBits(Converter.intToBin(RS_FIELD_LENGTH, params.get(RS_FIELD)), RS_FIELD_INIT);
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.FPDivider;
   }
 }

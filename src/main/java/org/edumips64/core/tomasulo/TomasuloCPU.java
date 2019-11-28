@@ -31,12 +31,13 @@ import java.util.logging.Level;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
 import org.edumips64.core.is.*;
+import org.edumips64.core.tomasulo.fu.ReservationStation;
 import org.edumips64.utils.*;
 
 /** This class models a MIPS CPU with 32 64-bit General Purpose Registers.
  *  @author Andrea Spadaccini, Simona Ullo, Antonella Scandura, Massimo Trubia (FPU modifications)
  */
-public class CPU {
+public class TomasuloCPU {
     private Memory mem;
     private Register[] gpr;
     private static final Logger logger = Logger.getLogger(org.edumips64.core.CPU.class.getName());
@@ -48,6 +49,8 @@ public class CPU {
     /** Program Counter*/
     private Register pc, old_pc;
     private Register LO, HI;
+
+    private List<ReservationStation> reservationStations;
 
     /** CPU status.
      *  READY - the CPU has been initialized but the symbol table hasn't been
@@ -89,7 +92,7 @@ public class CPU {
         cpuStatusChangeCallback = callback;
     }
 
-    public CPU(Memory memory, ConfigStore config, InstructionInterface bubble) {
+    public TomasuloCPU(Memory memory, ConfigStore config, InstructionInterface bubble) {
         this.config = config;
         this.bubble = bubble;
 
@@ -206,24 +209,6 @@ public class CPU {
      * @return the rounding mode */
     public FCSRRegister.FPRoundingMode getFCSRRoundingMode() {
         return FCSR.getFCSRRoundingMode();
-    }
-
-    /** Gets the current computing step of the divider*/
-    public int getDividerCounter() {
-        return fpPipe.getDividerCounter();
-    }
-
-    /** Gets the integer pipeline
-     *  @return an HashMap
-     */
-    public Map<Pipeline.Stage, InstructionInterface> getPipeline() {
-        // TODO: fix callers to use Pipeline.
-        return pipe.getInternalRepresentation();
-    }
-
-    // Includes FP instructions and bubbles. Used by CycleBuilder.
-    public int getInstructionCount() {
-        return pipe.size() + fpPipe.size();
     }
 
     /** Returns the number of cycles performed by the CPU.
@@ -430,11 +415,6 @@ public class CPU {
         } finally {
             logger.info("End of cycle " + cycles + "\n---------------------------------------------\n" + pipeLineString() + "\n");
         }
-    }
-
-    private void changeStage(Pipeline.Stage newStatus) {
-        logger.info(newStatus.toString() + " STAGE: " + pipe.get(newStatus) + "\n================================");
-        currentPipeStage = newStatus;
     }
 
     // Individual stages, in execution order (WB, MEM, EX, ID, IF).
@@ -702,20 +682,6 @@ public class CPU {
         logger.info("CPU Resetted");
     }
 
-    /** Test method that returns a string containing the status of the pipeline.
-     * @return string representation of the pipeline status
-     */
-    public String pipeLineString() {
-        String s = "";
-        s += "IF:\t" + pipe.IF() + "\n";
-        s += "ID:\t" + pipe.ID() + "\n";
-        s += "EX:\t" + pipe.EX() + "\n";
-        s += "MEM:\t" + pipe.MEM() + "\n";
-        s += "WB:\t" + pipe.WB() + "\n";
-
-        return s;
-    }
-
     /** Test method that returns a string containing the values of every
      * register.
      * @return string representation of the register file contents
@@ -730,10 +696,6 @@ public class CPU {
         }
 
         return s.toString();
-    }
-
-    public boolean isEnableForwarding() {
-        return config.getBoolean(ConfigKey.FORWARDING);
     }
 
     /** Test method that returns a string containing the values of every
@@ -777,7 +739,6 @@ public class CPU {
     public String toString() {
         String s = "";
         s += mem.toString() + "\n";
-        s += pipeLineString();
         s += gprString();
         s += fprString();
         return s;

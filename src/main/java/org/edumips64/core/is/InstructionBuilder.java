@@ -1,6 +1,5 @@
 package org.edumips64.core.is;
 
-import org.edumips64.core.CPU;
 import org.edumips64.core.Dinero;
 import org.edumips64.core.IOManager;
 import org.edumips64.core.Memory;

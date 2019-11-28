@@ -25,7 +25,6 @@
 
 package org.edumips64.utils;
 
-import org.edumips64.core.CPU;
 import org.edumips64.core.Pipeline;
 import org.edumips64.core.is.InstructionInterface;
 

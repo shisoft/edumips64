@@ -26,6 +26,8 @@ package org.edumips64.core.is;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
+import org.edumips64.core.tomasulo.fu.Type;
+
 import java.math.*;
 //per diagnostica
 
@@ -59,14 +61,10 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
     paramCount = 3;
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if source registers are valid passing their own values into temporary registers
     RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-
-    if (fs.getWriteSemaphore() > 0 || ft.getWriteSemaphore() > 0) {
-      return true;
-    }
 
     TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
     TRfp[FT_FIELD].setBits(ft.getBinString(), 0);
@@ -130,4 +128,8 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
     repr.setBits(COND_VALUE, COND_VALUE_INIT);
   }
 
+  @Override
+  public Type getFUType() {
+    return Type.FPAdder;
+  }
 }

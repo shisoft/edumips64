@@ -25,6 +25,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 
 /** <pre>
@@ -51,11 +52,10 @@ class LUI extends ALU_IType {
     this.name = "LUI";
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if the source register is valid passing its own values into a temporary register
     //locking the target register
     Register rt = cpu.getRegister(params.get(RT_FIELD));
-    rt.incrWriteSemaphore();
     //writing the immediate value of "params" on a temporary register
     TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
     return false;
@@ -66,10 +66,6 @@ class LUI extends ALU_IType {
     String imm_shift = imm + "0000000000000000";
     long imm_shift_lng = Converter.binToLong(imm_shift, false);
     TR[RT_FIELD].writeDoubleWord(imm_shift_lng);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, 0);
@@ -77,5 +73,8 @@ class LUI extends ALU_IType {
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
     repr.setBits(Converter.intToBin(IMM_FIELD_LENGTH, params.get(IMM_FIELD)), IMM_FIELD_INIT);
   }
-
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

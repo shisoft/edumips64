@@ -23,6 +23,7 @@ package org.edumips64.core.is;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,8 +52,8 @@ public abstract class Instruction implements InstructionInterface {
   /** CPU instance. It is set through setCPU, and it should always be set before the instruction is considered
    * fully built. InstructionBuilder + package-local instruction constructors enforce this.
    */
-  protected CPU cpu;
-  protected void setCPU(CPU cpu) {
+  protected TomasuloCPU cpu;
+  protected void setCPU(TomasuloCPU cpu) {
     this.cpu = cpu;
   }
 

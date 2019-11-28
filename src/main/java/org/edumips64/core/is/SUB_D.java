@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -50,5 +51,10 @@ class SUB_D extends FPArithmeticInstructions {
   @Override
   protected String doFPArith(String operand1, String operand2) throws FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, IrregularStringOfBitsException {
     return fpInstructionUtils.doubleSubtraction(operand1, operand2);
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.FPAdder;
   }
 }

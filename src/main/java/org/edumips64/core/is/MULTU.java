@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 import java.math.BigInteger;
 
@@ -59,21 +60,13 @@ class MULTU extends ALU_RType {
     syntax = "%R,%R";
     name = "MULTU";
   }
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if source registers are valid passing their own values into temporary registers
     Register rs = cpu.getRegister(params.get(RS_FIELD));
     Register rt = cpu.getRegister(params.get(RT_FIELD));
 
-    if (rs.getWriteSemaphore() > 0 || rt.getWriteSemaphore() > 0) {
-      return true;
-    }
-
     TR[RS_FIELD] = rs;
     TR[RT_FIELD] = rt;
-    //locking the destination register
-
-    cpu.getLO().incrWriteSemaphore();
-    cpu.getHI().incrWriteSemaphore();
     return false;
   }
 
@@ -107,27 +100,14 @@ class MULTU extends ALU_RType {
     for (int i = lo.length(); i < 64; i++) {
       lo = '0' + lo;
     }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
-
-  public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
-  }
   public void doWB() throws IrregularStringOfBitsException {
     //passing results from temporary registers to destination registers and unlocking them
     Register lo = cpu.getLO();
     Register hi = cpu.getHI();
     lo.setBits(this.lo, 0);
     hi.setBits(this.hi, 0);
-
-    lo.decrWriteSemaphore();
-    hi.decrWriteSemaphore();
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
@@ -136,5 +116,7 @@ class MULTU extends ALU_RType {
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
   }
 
-
+  public Type getFUType() {
+    return Type.FPMultiplier;
+  }
 }

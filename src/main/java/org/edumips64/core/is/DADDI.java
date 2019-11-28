@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -37,6 +38,7 @@ import org.edumips64.core.IrregularStringOfBitsException;
 
 class DADDI extends ALU_IType {
   private final String OPCODE_VALUE = "011000";
+
   DADDI() {
     super.OPCODE_VALUE = OPCODE_VALUE;
     this.name = "DADDI";
@@ -54,22 +56,16 @@ class DADDI extends ALU_IType {
     //comparison between the two most significant bits of the outputstring and
     //raising integer overflow if the first bit is different from the second one
     if (outputstring.charAt(0) != outputstring.charAt(1)) {
-      //if the enable forwarding is turned on we have to ensure that registers
-      //should be unlocked also if a synchronous exception occurs. This is performed
-      //by executing the WB method before raising the trap
-      if (cpu.isEnableForwarding()) {
-        doWB();
-      }
-
       throw new IntegerOverflowException();
     } else {
       outputstring = outputstring.substring(1, 65);
     }
 
     TR[RT_FIELD].setBits(outputstring, 0);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

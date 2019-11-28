@@ -22,7 +22,6 @@
  */
 
 package org.edumips64.ui.swing;
-import org.edumips64.core.CPU;
 import org.edumips64.core.Memory;
 import org.edumips64.utils.*;
 

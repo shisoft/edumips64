@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -55,9 +56,9 @@ public class XOR extends ALU_RType {
     rd = InstructionsUtils.xorOperation(rs, rt);
     TR[RD_FIELD].setBits(rd, 0);
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  }
 
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

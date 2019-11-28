@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -55,20 +56,15 @@ public class DSLL extends ALU_RType {
   }
   //since this operation is carried out writing sa value as unsigned value, it is necessary
   //the overriding of ID method
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if the source register is valid passing his own value into a temporary register
     Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    if (rt.getWriteSemaphore() > 0) {
-      return true;
-    }
 
     TR[RT_FIELD] = rt;
     //writing on a temporary register the sa field as unsigned value
     TR[SA_FIELD].writeDoubleWord(params.get(SA_FIELD));
     //increment the semaphore of the destination register
     Register rd = cpu.getRegister(params.get(RD_FIELD));
-    rd.incrWriteSemaphore();
     return false;
   }
 
@@ -85,10 +81,6 @@ public class DSLL extends ALU_RType {
     }
 
     TR[RD_FIELD].setBits(sb.substring(0), 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
@@ -96,5 +88,9 @@ public class DSLL extends ALU_RType {
     repr.setBits(Converter.intToBin(SA_FIELD_LENGTH, params.get(SA_FIELD)), SA_FIELD_INIT);
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
     repr.setBits(Converter.intToBin(RD_FIELD_LENGTH, params.get(RD_FIELD)), RD_FIELD_INIT);
+  }
+
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

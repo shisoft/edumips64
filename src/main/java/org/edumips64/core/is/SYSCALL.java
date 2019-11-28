@@ -61,7 +61,7 @@ public class SYSCALL extends Instruction {
     }
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException {
     if (syscall_n == 0) {
       throw new StoppingException();
     } else if ((syscall_n > 0) && (syscall_n <= 5)) {

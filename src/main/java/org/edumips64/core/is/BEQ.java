@@ -45,11 +45,7 @@ public class BEQ extends FlowControl_IType {
     name = "BEQ";
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    if (cpu.getRegister(params.get(RS_FIELD)).getWriteSemaphore() > 0 || cpu.getRegister(params.get(RT_FIELD)).getWriteSemaphore() > 0) {
-      return true;
-    }
-
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //getting registers rs and rt
     String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
     String rt = cpu.getRegister(params.get(RT_FIELD)).getBinString();

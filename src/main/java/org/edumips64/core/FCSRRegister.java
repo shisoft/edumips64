@@ -123,7 +123,7 @@ public class FCSRRegister extends BitSet32 {
    *
    * @param rm a constant that belongs to the following values TO_NEAREST ,TOWARD_ZERO,TOWARDS_PLUS_INFINITY,TOWARDS_MINUS_INFINITY
    */
-  void setFCSRRoundingMode(FPRoundingMode rm) throws IrregularStringOfBitsException {
+  public void setFCSRRoundingMode(FPRoundingMode rm) throws IrregularStringOfBitsException {
     final int FCSR_RM_FIELD_INIT = 30;
     switch (rm) {
       case TO_NEAREST:
@@ -216,7 +216,7 @@ public class FCSRRegister extends BitSet32 {
     }
   }
 
-  FPRoundingMode getFCSRRoundingMode() {
+  public FPRoundingMode getFCSRRoundingMode() {
     final int FCSR_RM_FIELD_INIT = 30;
 
     if (getBinString().substring(FCSR_RM_FIELD_INIT, size).compareTo("00") == 0) {

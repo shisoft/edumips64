@@ -26,6 +26,7 @@
 
 package org.edumips64.core.is;
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 import java.util.logging.Logger;
 
@@ -57,10 +58,11 @@ class MOVN extends ALU_RType {
       TR[RD_FIELD].setBits(TR[RS_FIELD].getBinString(), 0);
       should_write = true;
     }
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 
   public void doWB() throws IrregularStringOfBitsException {
@@ -70,8 +72,5 @@ class MOVN extends ALU_RType {
       logger.info("Writing to the dest register, since the condition is true.");
       cpu.getRegister(params.get(RD_FIELD)).setBits(TR[RD_FIELD].getBinString(), 0);
     }
-
-    // We must unlock the register in both cases.
-    cpu.getRegister(params.get(RD_FIELD)).decrWriteSemaphore();
   }
 }

@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.*;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -52,9 +53,10 @@ class DADDIU extends ALU_IType {
     //adding values without to control integer overflow
     long result = imm + rs;
     TR[RT_FIELD].writeDoubleWord(result);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

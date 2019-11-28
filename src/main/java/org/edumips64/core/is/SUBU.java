@@ -25,6 +25,7 @@
 
 package org.edumips64.core.is;
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**<pre>
  *      Syntax: SUBU rd, rs, rt
@@ -59,12 +60,9 @@ public class SUBU extends ALU_RType {
     }
 
     TR[RD_FIELD].setBits(filledOutputstring, 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
-
   }
 
-
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

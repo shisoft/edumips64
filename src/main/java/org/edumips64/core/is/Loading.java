@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /** This is the base class for loading instruction
  *
@@ -41,14 +42,9 @@ public abstract class Loading extends LDSTInstructions {
     super(memory);
   }
 
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if the base register is valid ...
     Register base = cpu.getRegister(params.get(BASE_FIELD));
-
-    if (base.getWriteSemaphore() > 0) {
-      logger.info("RAW in " + fullname + ": base register still needs to be written to.");
-      return true;
-    }
 
     //calculating  address (base+offset)
     long address = base.getValue() + params.get(OFFSET_FIELD);
@@ -56,7 +52,6 @@ public abstract class Loading extends LDSTInstructions {
     TR[OFFSET_PLUS_BASE].writeDoubleWord(address);
     //locking rt register
     Register rt = cpu.getRegister(params.get(RT_FIELD));
-    rt.incrWriteSemaphore();
     return false;
   }
 
@@ -69,24 +64,17 @@ public abstract class Loading extends LDSTInstructions {
   }
 
   public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
+    doWB();
   }
 
   public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
     memEl = memory.getCellByAddress(address);
     doMEM();
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
   public void doWB() throws IrregularStringOfBitsException {
     //passing memory value from temporary LMD register to the destination register and unlocking it
     cpu.getRegister(params.get(RT_FIELD)).setBits(TR[LMD_REGISTER].getBinString(), 0);
-    cpu.getRegister(params.get(RT_FIELD)).decrWriteSemaphore();
   }
 }
 

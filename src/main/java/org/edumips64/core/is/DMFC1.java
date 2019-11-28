@@ -25,6 +25,7 @@
 
 package org.edumips64.core.is;
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  *<pre>
@@ -47,11 +48,10 @@ class DMFC1 extends FPMoveFromInstructions {
     //getting values from temporary registers
     String value = TRfp[FS_FIELD].getBinString();
     TR[RT_FIELD].setBits(value, 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
-
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

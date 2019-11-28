@@ -25,6 +25,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**This is the base class of the conversion instructions in which the FCSR register is read in order to perform the conversion
  *
@@ -39,6 +40,12 @@ public abstract class FPConversionFCSRInstructions extends FPFormattedOperandMov
     this.paramCount = 2;
   }
   public abstract void EX() throws IrregularStringOfBitsException, FPInvalidOperationException, IrregularWriteOperationException, FPUnderflowException, FPOverflowException;
+
+  @Override
+  public Type getFUType() {
+    return Type.FPAdder;
+  }
+
 }
 
 

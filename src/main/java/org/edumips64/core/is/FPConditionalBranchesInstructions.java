@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /** This is the base class for the FP conditional branches instructions
  *
@@ -54,7 +55,7 @@ public abstract class FPConditionalBranchesInstructions extends FlowControlInstr
     this.paramCount = 2;
   }
 
-  public abstract boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException;
+  public abstract boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException;
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException {
   }
@@ -74,4 +75,8 @@ public abstract class FPConditionalBranchesInstructions extends FlowControlInstr
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD) / 4), OFFSET_FIELD_INIT);
   }
 
+  @Override
+  public Type getFUType() {
+    return Type.FPAdder;
+  }
 }

@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.Converter;
 import org.edumips64.core.IrregularStringOfBitsException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -64,9 +65,9 @@ public class DSRLV extends ALU_RType {
 
     sb.append(rt.substring(0, 64 - shift_value));
     TR[RD_FIELD].setBits(sb.substring(0), 0);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

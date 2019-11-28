@@ -27,6 +27,7 @@ package org.edumips64.core.is;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -44,18 +45,13 @@ class ORI extends ALU_IType {
   }
   //since this operation is carried out with zero padding of immediate, against sign_extend(immediate) methodology
   //of all others instructions in the same category, is necessary the overriding of ID method
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if the source register is valid passing its own values into a temporary register
     Register rs = cpu.getRegister(params.get(RS_FIELD));
-
-    if (rs.getWriteSemaphore() > 0) {
-      return true;
-    }
 
     TR[RS_FIELD] = rs;
     //locking the target register
     Register rt = cpu.getRegister(params.get(RT_FIELD));
-    rt.incrWriteSemaphore();
     //writing the immediate value of "params" on a temporary register
     TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
     //forcing zero-padding in the same temporary register
@@ -85,10 +81,10 @@ class ORI extends ALU_IType {
     }
 
     TR[RT_FIELD].setBits(sb.substring(0), 0);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
-
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
   }
 }

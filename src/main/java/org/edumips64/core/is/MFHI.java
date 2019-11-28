@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 //per diagnostica
 
@@ -51,35 +52,20 @@ class MFHI extends ALU_RType {
     syntax = "%R";
     name = "MFHI";
   }
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     //if the HI register is valid passing his own value into temporary register
     Register hi_reg = cpu.getHI();
-
-    if (hi_reg.getWriteSemaphore() > 0) {
-      return true;
-    }
 
     TR[HI_REG] = hi_reg;
     //locking the destination register
     Register rd = cpu.getRegister(params.get(RD_FIELD));
-    rd.incrWriteSemaphore();
     return false;
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
   public void doWB() throws IrregularStringOfBitsException {
     cpu.getRegister(params.get(RD_FIELD)).setBits(TR[HI_REG].getBinString(), 0);
-    cpu.getRegister(params.get(RD_FIELD)).decrWriteSemaphore();
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
@@ -87,4 +73,7 @@ class MFHI extends ALU_RType {
     repr.setBits(Converter.intToBin(RD_FIELD_LENGTH, params.get(RD_FIELD)), RD_FIELD_INIT);
   }
 
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

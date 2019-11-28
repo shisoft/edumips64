@@ -31,6 +31,7 @@ import org.edumips64.core.MemoryElementNotFoundException;
 import org.edumips64.core.NotAlignException;
 import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.Converter;
+import org.edumips64.core.tomasulo.fu.Type;
 import org.edumips64.utils.CurrentLocale;
 import org.edumips64.core.IrregularStringOfBitsException;
 
@@ -77,7 +78,7 @@ public abstract class LDSTInstructions extends Instruction {
       e.printStackTrace();
     }
   }
-  public boolean ID() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
     return false;
   }
 
@@ -117,5 +118,10 @@ public abstract class LDSTInstructions extends Instruction {
     repr.setBits(Converter.intToBin(BASE_FIELD_LENGTH, params.get(BASE_FIELD)), BASE_FIELD_INIT);
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD)), OFFSET_FIELD_INIT);
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.Memory;
   }
 }

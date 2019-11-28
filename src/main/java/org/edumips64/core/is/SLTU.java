@@ -26,6 +26,7 @@
 
 package org.edumips64.core.is;
 import org.edumips64.core.*;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**
  * <pre>
@@ -75,11 +76,9 @@ class SLTU extends ALU_RType {
     } else {
       TR[RD_FIELD].writeDoubleWord(0);
     }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 
-
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }
