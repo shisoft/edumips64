@@ -76,5 +76,25 @@ public abstract class Loading extends LDSTInstructions {
     //passing memory value from temporary LMD register to the destination register and unlocking it
     cpu.getRegister(params.get(RT_FIELD)).setBits(TR[LMD_REGISTER].getBinString(), 0);
   }
+
+  @Override
+  public Integer op1() {
+    return params.get(BASE_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Object imme() {
+    return params.get(OFFSET_FIELD);
+  }
 }
 

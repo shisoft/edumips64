@@ -58,10 +58,29 @@ public abstract class FPMoveToInstructions extends FPMoveToAndFromInstructions {
     cpu.getRegisterFP(params.get(FS_FIELD)).setBits(TRfp[FS_FIELD].getBinString(), 0);
   }
 
-
   @Override
   public Type getFUType() {
     return Type.FPAdder;
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return cpu.IntegerRegisters() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Object imme() {
+    return null;
   }
 }
 

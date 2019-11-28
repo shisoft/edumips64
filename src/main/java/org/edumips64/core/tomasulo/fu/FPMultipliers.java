@@ -1,10 +1,11 @@
 package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 public class FPMultipliers extends FunctionUnit {
-    public FPMultipliers(int id, CommonDataBus cdb) {
-        super(id, cdb);
+    public FPMultipliers(int id, TomasuloCPU cpu) {
+        super(id, cpu);
     }
 
     @Override

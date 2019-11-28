@@ -51,10 +51,6 @@ public abstract class FunctionUnit {
         this.status = status;
     }
 
-    public int getOp() {
-        return Op;
-    }
-
     public CommonDataBus getCdb() {
         return cdb;
     }

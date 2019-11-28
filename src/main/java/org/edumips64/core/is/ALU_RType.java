@@ -95,4 +95,24 @@ public abstract class ALU_RType extends ComputationalInstructions {
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RT_FIELD)), RT_FIELD_INIT);
     repr.setBits(Converter.intToBin(RD_FIELD_LENGTH, params.get(RD_FIELD)), RD_FIELD_INIT);
   }
+
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return params.get(RD_FIELD);
+  }
+
+  @Override
+  public Object imme() {
+    return null;
+  }
 }

@@ -132,22 +132,22 @@ public class TomasuloCPU {
         this.fus = new ArrayList<>();
         int num_fus = 0;
         for (int i = 0; i < this.config.getInt(ConfigKey.INT_ADDERS); i++) {
-            this.fus.add(new Integers(num_fus, cdb));
+            this.fus.add(new Integers(num_fus, this));
             num_fus ++;
         }
         for (int i = 0; i < this.config.getInt(ConfigKey.FP_ADDERS); i++) {
-            this.fus.add(new FPAdders(num_fus, cdb));
+            this.fus.add(new FPAdders(num_fus, this));
             num_fus ++;
         }
         for (int i = 0; i < this.config.getInt(ConfigKey.FP_MULTIPLIERS); i++) {
-            this.fus.add(new FPMultipliers(num_fus, cdb));
+            this.fus.add(new FPMultipliers(num_fus, this));
             num_fus ++;
         }
         for (int i = 0; i < this.config.getInt(ConfigKey.FP_DIVIDERS); i++) {
-            this.fus.add(new FPDividers(num_fus, cdb));
+            this.fus.add(new FPDividers(num_fus, this));
             num_fus ++;
         }
-        this.fus.add(new FuMemory(num_fus, cdb, memory));
+        this.fus.add(new FuMemory(num_fus, this, memory));
 
         logger.info("Tomasulo CPU Created.");
     }
@@ -211,6 +211,10 @@ public class TomasuloCPU {
      */
     public Register getRegister(int index) {
         return gpr[index];
+    }
+
+    public int IntegerRegisters() {
+        return gpr.length;
     }
 
     public RegisterFP getRegisterFP(int index) {

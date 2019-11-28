@@ -1,11 +1,12 @@
 package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 public class FPAdders extends FunctionUnit {
 
-    public FPAdders(int id, CommonDataBus cdb) {
-        super(id, cdb);
+    public FPAdders(int id, TomasuloCPU cpu) {
+        super(id, cpu);
     }
 
     @Override

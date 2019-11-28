@@ -43,23 +43,12 @@ public abstract class FPLoading extends FPLDSTInstructions {
     //if the base register is valid ...
     Register base = cpu.getRegister(params.get(BASE_FIELD));
 
-    if (base.getWriteSemaphore() > 0) {
-      return true;
-    }
-
     //calculating  address (base+offset)
     long address = base.getValue() + params.get(OFFSET_FIELD);
     //saving address into a temporary register
     TR[OFFSET_PLUS_BASE].writeDoubleWord(address);
     //locking ft register either in write mode or in read mode
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-
-    if (ft.getWAWSemaphore() > 0) {
-      throw new WAWException();
-    }
-
-    ft.incrWriteSemaphore();
-    ft.incrWAWSemaphore();
     return false;
   }
 
@@ -68,19 +57,36 @@ public abstract class FPLoading extends FPLDSTInstructions {
 
   public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
     //since the load instruction reaches the MEM() stage, the (read) lock can be removed because WB() is reached first by the load instruction
-    cpu.getRegisterFP(params.get(FT_FIELD)).decrWAWSemaphore();
   }
 
   public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
+    doWB();
   }
 
   public void doWB() throws IrregularStringOfBitsException {
     //passing memory value from temporary LMD register to the destination register and unlocking it
     cpu.getRegisterFP(params.get(FT_FIELD)).setBits(TR[LMD_REGISTER].getBinString(), 0);
-    cpu.getRegisterFP(params.get(FT_FIELD)).decrWriteSemaphore();
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(BASE_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return cpu.IntegerRegisters() + params.get(FT_FIELD);
+  }
+
+  @Override
+  public Object imme() {
+    return params.get(OFFSET_FIELD);
   }
 }
+
 

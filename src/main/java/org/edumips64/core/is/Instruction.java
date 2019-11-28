@@ -269,4 +269,9 @@ public abstract class Instruction implements InstructionInterface {
   public boolean isBubble() {
     return name.equals(" ");
   }
+
+  public abstract Integer op1();
+  public abstract Integer op2();
+  public abstract Integer dest();
+  public abstract Object imme();
 }

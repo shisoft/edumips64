@@ -49,10 +49,6 @@ public class SDC1 extends FPStoring {
       MemoryElement memEl = memory.getCellByAddress(address);
       //writing on the memory element the RT register
       memEl.setBits(TR[RT_FIELD].getBinString(), 0);
-
-      if (cpu.isEnableForwarding()) {
-        WB();
-      }
     } catch (Exception e) {
       e.printStackTrace();
     }

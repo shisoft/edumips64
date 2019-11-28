@@ -1,11 +1,12 @@
 package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 public class Integers extends FunctionUnit {
 
-    public Integers(int id, CommonDataBus cdb) {
-        super(id, cdb);
+    public Integers(int id, TomasuloCPU cpu) {
+        super(id, cpu);
     }
 
     @Override

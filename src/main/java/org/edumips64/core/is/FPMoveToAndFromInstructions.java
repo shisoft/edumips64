@@ -62,5 +62,4 @@ public abstract class FPMoveToAndFromInstructions extends ComputationalInstructi
     repr.setBits(Converter.intToBin(FS_FIELD_LENGTH, params.get(FS_FIELD)), FS_FIELD_INIT);
     repr.setBits(ZERO_FIELD, ZERO_FIELD_INIT);
   }
-
 }

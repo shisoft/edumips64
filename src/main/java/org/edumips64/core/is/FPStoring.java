@@ -42,10 +42,6 @@ public abstract class FPStoring extends FPLDSTInstructions {
     Register base = cpu.getRegister(params.get(BASE_FIELD));
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
 
-    if (base.getWriteSemaphore() > 0 || ft.getWriteSemaphore() > 0) {
-      return true;
-    }
-
     TR[FT_FIELD].setBits(ft.getBinString(), 0);
     //calculating  address (base+offset)
     long address = base.getValue() + params.get(OFFSET_FIELD);
@@ -60,4 +56,23 @@ public abstract class FPStoring extends FPLDSTInstructions {
 
   public void WB() throws IrregularStringOfBitsException {}
 
+  @Override
+  public Integer op1() {
+    return params.get(BASE_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return cpu.IntegerRegisters() + params.get(FT_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Object imme() {
+    return params.get(OFFSET_FIELD);
+  }
 }

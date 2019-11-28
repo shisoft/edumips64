@@ -2,12 +2,13 @@ package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.Memory;
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 public class FuMemory extends FunctionUnit {
     Memory memory;
 
-    public FuMemory(int id, CommonDataBus cdb, Memory memory) {
-        super(id, cdb);
+    public FuMemory(int id, TomasuloCPU cpu, Memory memory) {
+        super(id, cpu);
         this.memory = memory;
     }
 

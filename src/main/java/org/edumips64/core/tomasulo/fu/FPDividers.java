@@ -1,11 +1,12 @@
 package org.edumips64.core.tomasulo.fu;
 
 import org.edumips64.core.tomasulo.CommonDataBus;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 public class FPDividers extends FunctionUnit {
 
-    public FPDividers(int id, CommonDataBus cdb) {
-        super(id, cdb);
+    public FPDividers(int id, TomasuloCPU cpu) {
+        super(id, cpu);
     }
 
     @Override
