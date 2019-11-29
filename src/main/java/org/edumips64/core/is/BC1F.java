@@ -46,12 +46,13 @@ public class BC1F extends FPConditionalBranchesInstructions {
     super.name = NAME;
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public void EX() throws IrregularWriteOperationException, TwosComplementSumException, IrregularStringOfBitsException, JumpException {
     boolean condition = cpu.getFCSRConditionCode(params.get(CC_FIELD)) == 0;
 
     //converting offset into a signed binary value of 64 bits in length
+    String imme = this.reservationStation.getImme();
     BitSet64 bs = new BitSet64();
-    bs.writeHalf(params.get(OFFSET_FIELD));
+    bs.writeHalf(Integer.parseInt(imme));
     String offset = bs.getBinString();
 
     if (condition) {
@@ -70,8 +71,25 @@ public class BC1F extends FPConditionalBranchesInstructions {
 
       throw new JumpException();
     }
-    return false;
   }
 
+  @Override
+  public Integer op1() {
+    return null;
+  }
 
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(OFFSET_FIELD);
+  }
 }

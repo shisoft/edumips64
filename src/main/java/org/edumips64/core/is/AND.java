@@ -49,8 +49,8 @@ public class AND extends ALU_RType {
   public void EX()
   throws IrregularStringOfBitsException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
-    String rt = TR[RT_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK();
     //performing bitwise OR between string values
     boolean rsbit, rtbit, resbit;
     String outputstring = "";
@@ -64,7 +64,7 @@ public class AND extends ALU_RType {
     }
 
     //saving bitwise AND result into a temporary register
-    TR[RD_FIELD].setBits(outputstring, 0);
+    this.resReg.setBits(outputstring, 0);;
   }
   @Override
   public Type getFUType() {

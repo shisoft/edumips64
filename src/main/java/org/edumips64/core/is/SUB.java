@@ -46,8 +46,8 @@ public class SUB extends ALU_RType {
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
-    String rt = TR[RT_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK()
     //cutting the high part of registers
     rs = rs.substring(32, 64);
     rt = rt.substring(32, 64);
@@ -69,7 +69,7 @@ public class SUB extends ALU_RType {
         filledOutputstring = outputstring.charAt(0) + filledOutputstring;
       }
 
-      TR[RD_FIELD].setBits(filledOutputstring, 0);
+      this.resReg.setBits(filledOutputstring, 0);
     }
   }
   public Type getFUType() {

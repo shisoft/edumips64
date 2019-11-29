@@ -46,6 +46,26 @@ public abstract class FPConversionFCSRInstructions extends FPFormattedOperandMov
     return Type.FPAdder;
   }
 
+
+  @Override
+  public Integer op1() {
+    return cpu.getInstructions() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return cpu.getInstructions() + params.get(FD_FIELD);
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }
 
 

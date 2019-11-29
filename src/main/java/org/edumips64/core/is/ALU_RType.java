@@ -52,27 +52,6 @@ public abstract class ALU_RType extends ComputationalInstructions {
     paramCount = 3;
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    logger.info("Executing step ID of " + fullname);
-    logger.info("RD is R" + params.get(RD_FIELD) + "; RS is R" + params.get(RS_FIELD) + "; RT is R" + params.get(RT_FIELD) + ";");
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    TR[RS_FIELD].setBits(rs.getBinString(), 0);
-    TR[RT_FIELD].setBits(rt.getBinString(), 0);
-
-    // Get the Destination Register value.
-    // BE CAREFUL! If the instruction does not use RD (like MOVN and MOVZ
-    // if the condition is false), and someone changes the value of RD
-    // between the ID and the WB stage of the current instruction, the old
-    // value of RD, read during ID, will be written to RD during WB.
-    Register rd = cpu.getRegister(params.get(RD_FIELD));
-    TR[RD_FIELD].setBits(rd.getBinString(), 0);
-    logger.info("RD = " + TR[RD_FIELD].getValue() + "; RS = " + TR[RS_FIELD].getValue() + "; RT = " + TR[RT_FIELD].getValue() + ";");
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException {
   }
 
@@ -112,7 +91,7 @@ public abstract class ALU_RType extends ComputationalInstructions {
   }
 
   @Override
-  public Object imme() {
+  public Integer imme() {
     return null;
   }
 }

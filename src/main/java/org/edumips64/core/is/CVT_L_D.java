@@ -72,9 +72,5 @@ class CVT_L_D extends FPConversionFCSRInstructions {
     Register tmp = new Register("tmp-CVT.L.D");
     tmp.writeDoubleWord(bi.longValue());
     TRfp[FD_FIELD].setBits(tmp.getBinString(), 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 }

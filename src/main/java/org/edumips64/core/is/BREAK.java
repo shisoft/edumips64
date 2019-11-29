@@ -68,4 +68,25 @@ public class BREAK extends Instruction {
      * the BREAK instruction. */
     repr.setBits("001101", 25);
   }
+
+
+  @Override
+  public Integer op1() {
+    return null;
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }

@@ -46,7 +46,7 @@ class MOVZ_D extends FPConditionalZerosMoveInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String rt = TR[RT_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
     String fs = TRfp[FS_FIELD].getBinString();
 
     if (rt.matches("[0]{64}")) {

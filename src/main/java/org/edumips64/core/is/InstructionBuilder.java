@@ -3,6 +3,7 @@ package org.edumips64.core.is;
 import org.edumips64.core.Dinero;
 import org.edumips64.core.IOManager;
 import org.edumips64.core.Memory;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 import org.edumips64.utils.ConfigKey;
 import org.edumips64.utils.ConfigStore;
 
@@ -15,11 +16,11 @@ import org.edumips64.utils.ConfigStore;
 public class InstructionBuilder {
   private Memory memory;
   private IOManager iom;
-  private CPU cpu;
+  private TomasuloCPU cpu;
   private Dinero dinero;
   private ConfigStore config;
 
-  public InstructionBuilder(Memory memory, IOManager iom, CPU cpu, Dinero dinero, ConfigStore config) {
+  public InstructionBuilder(Memory memory, IOManager iom, TomasuloCPU cpu, Dinero dinero, ConfigStore config) {
     this.memory = memory;
     this.iom = iom;
     this.cpu = cpu;

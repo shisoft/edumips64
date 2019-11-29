@@ -71,7 +71,7 @@ public class DSLL extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     int sa = (int) TR[SA_FIELD].getValue();
-    String rt = TR[RT_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
     //composing new shifted value
     StringBuffer sb = new StringBuffer();
     sb.append(rt.substring(sa));

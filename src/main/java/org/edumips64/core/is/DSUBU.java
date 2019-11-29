@@ -45,13 +45,13 @@ public class DSUBU extends ALU_RType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
-    String rt = TR[RT_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK()
 
     String outputstring = InstructionsUtils.twosComplementSubstraction(rs, rt);
 
     //There isn't IntegerOverflow cases
-    TR[RD_FIELD].setBits(outputstring, 0);
+    this.resReg.setBits(outputstring, 0);;
   }
 
   public Type getFUType() {

@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
-import org.edumips64.core.tomasulo.fu.Type;
 
 /** This is the base class for loading instruction
  *
@@ -93,7 +92,7 @@ public abstract class Loading extends LDSTInstructions {
   }
 
   @Override
-  public Object imme() {
+  public Integer imme() {
     return params.get(OFFSET_FIELD);
   }
 }

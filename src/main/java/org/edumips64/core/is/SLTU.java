@@ -49,8 +49,8 @@ class SLTU extends ALU_RType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
-    String rt = TR[RT_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK()
     boolean rsbit, rtbit, diff, slt = false;
 
     //comparison between registers as unsigned integers

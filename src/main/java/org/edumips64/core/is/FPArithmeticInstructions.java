@@ -26,6 +26,7 @@ package org.edumips64.core.is;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
+import org.edumips64.core.tomasulo.fu.Type;
 //per diagnostica
 
 
@@ -59,27 +60,15 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
     fpInstructionUtils = new FPInstructionUtils(fcsr);
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
-    RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-
-    TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
-    TRfp[FT_FIELD].setBits(ft.getBinString(), 0);
-    //locking the destination register
-    RegisterFP fd = cpu.getRegisterFP(params.get(FD_FIELD));
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException {
     //getting values from temporary registers
-    String operand1 = TRfp[FS_FIELD].getBinString();
-    String operand2 = TRfp[FT_FIELD].getBinString();
+    String operand1 = this.reservationStation.getValueJ();
+    String operand2 = this.reservationStation.getValueK();
     String outputstring = null;
 
     try {
       outputstring = doFPArith(operand1, operand2);
-      TRfp[FD_FIELD].setBits(outputstring, 0);
+      this.getResRegFP().setBits(outputstring, 0);
     } catch (Exception ex) {
       //if the enable forwarding is turned on we have to ensure that registers
       //should be unlocked also if a synchronous exception occurs. This is performed
@@ -124,4 +113,23 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
     repr.setBits(FMT_FIELD, FMT_FIELD_INIT);
   }
 
+  @Override
+  public Integer op1() {
+    return cpu.IntegerRegisters() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return cpu.getInstructions() + params.get(FT_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return cpu.getInstructions() + params.get(FD_FIELD);
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }

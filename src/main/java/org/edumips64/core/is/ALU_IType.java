@@ -50,18 +50,6 @@ public abstract class ALU_IType extends ComputationalInstructions {
     this.paramCount = 3;
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid passing its own values into a temporary register
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-
-    TR[RS_FIELD].setBits(rs.getBinString(), 0);
-    //locking the target register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-    //writing the immediate value of "params" on a temporary register
-    TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
   }
 
@@ -75,7 +63,7 @@ public abstract class ALU_IType extends ComputationalInstructions {
 
   public void doWB() throws IrregularStringOfBitsException {
     //passing result from temporary register to destination register and unlocking it
-    logger.info("WB of the ALU I-Type instruction. Writing " + TR[RT_FIELD].getValue() + " to R" + params.get(RT_FIELD));
+    logger.info("WB of the ALU I-Type instruction. Writing " + this.resReg.getValue() + " to R" + params.get(RT_FIELD));
     cpu.getRegister(params.get(RT_FIELD)).setBits(TR[RT_FIELD].getBinString(), 0);
   }
 
@@ -102,7 +90,7 @@ public abstract class ALU_IType extends ComputationalInstructions {
   }
 
   @Override
-  public Object imme() {
+  public Integer imme() {
     return params.get(IMM_FIELD);
   }
 }

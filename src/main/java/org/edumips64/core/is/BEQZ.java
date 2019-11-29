@@ -46,21 +46,39 @@ public class BEQZ extends FlowControl_IType {
     name = "BEQZ";
   }
 
-  public boolean ISSUE()
-      throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
-    String zero = Converter.positiveIntToBin(64, 0);
-    boolean condition = rs.equals(zero);
+  public void EX() throws JumpException, TwosComplementSumException, IrregularWriteOperationException, IrregularStringOfBitsException {
+     String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
+      String zero = Converter.positiveIntToBin(64, 0);
+      boolean condition = rs.equals(zero);
 
-    if (condition) {
-      jumpToOffset(OFFSET_FIELD);
-    }
-    return false;
+      if (condition) {
+        jumpToOffset(OFFSET_FIELD);
+      }
   }
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);
     repr.setBits(Converter.intToBin(RS_FIELD_LENGTH, 0/*params.get(RS_FIELD)*/), RS_FIELD_INIT);
     repr.setBits(Converter.intToBin(RT_FIELD_LENGTH, params.get(RS_FIELD) /* 0*/), RT_FIELD_INIT);
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD) / 4), OFFSET_FIELD_INIT);
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(OFFSET_FIELD);
   }
 }

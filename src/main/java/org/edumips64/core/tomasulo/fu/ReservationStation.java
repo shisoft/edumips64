@@ -6,11 +6,11 @@ public class ReservationStation {
 
     private boolean busy;
     private int op;
-    private Long valueJ;
-    private Long valueK;
+    private String valueJ;
+    private String valueK;
     private Integer qj;
     private Integer qk;
-    private Long imme;
+    private Integer imme;
 
     public boolean isBusy() {
         return busy;
@@ -28,19 +28,19 @@ public class ReservationStation {
         this.op = op;
     }
 
-    public Long getValueJ() {
+    public String getValueJ() {
         return valueJ;
     }
 
-    public void setValueJ(Long valueJ) {
+    public void setValueJ(String valueJ) {
         this.valueJ = valueJ;
     }
 
-    public Long getValueK() {
+    public String getValueK() {
         return valueK;
     }
 
-    public void setValueK(Long valueK) {
+    public void setValueK(String valueK) {
         this.valueK = valueK;
     }
 
@@ -60,11 +60,11 @@ public class ReservationStation {
         this.qk = qk;
     }
 
-    public Long getImme() {
+    public Integer getImme() {
         return imme;
     }
 
-    public void setImme(Long imme) {
+    public void setImme(Integer imme) {
         this.imme = imme;
     }
 

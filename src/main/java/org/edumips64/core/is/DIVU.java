@@ -69,8 +69,8 @@ class DIVU extends ALU_RType {
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, DivisionByZeroException {
     //getting String from temporary register
-    String rt = TR[RT_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
+    String rs = this.reservationStation.getValueJ();
     //cutting the high part of registers
     rt = rt.substring(32, 64);
     rs = rs.substring(32, 64);

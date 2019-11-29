@@ -45,15 +45,34 @@ public class BEQ extends FlowControl_IType {
     name = "BEQ";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public void EX() throws JumpException, TwosComplementSumException, IrregularWriteOperationException, IrregularStringOfBitsException {
     //getting registers rs and rt
-    String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
-    String rt = cpu.getRegister(params.get(RT_FIELD)).getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK();
     boolean condition = rs.equals(rt);
 
     if (condition) {
       jumpToOffset(OFFSET_FIELD);
     }
-    return false;
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(OFFSET_FIELD);
   }
 }

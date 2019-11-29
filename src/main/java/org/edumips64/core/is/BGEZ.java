@@ -64,4 +64,23 @@ public class BGEZ extends FlowControl_IType {
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD) / 4), OFFSET_FIELD_INIT);
   }
 
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(OFFSET_FIELD);
+  }
 }

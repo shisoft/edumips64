@@ -99,6 +99,14 @@ public abstract class FunctionUnit {
     }
 
     public boolean issue(InstructionInterface instruction) throws WAWException, IrregularWriteOperationException, StoppingException, BreakException, FPInvalidOperationException, TwosComplementSumException, JumpException, IrregularStringOfBitsException {
+        assert this.getStatus() == Status.Idle;
+        int op1 = instruction.op1();
+        int op2 = instruction.op2();
+        int dest = instruction.dest();
+        int imme = instruction.imme();
+
+
+
         instruction.ISSUE();
         return false;
     }

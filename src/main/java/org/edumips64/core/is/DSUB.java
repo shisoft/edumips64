@@ -44,8 +44,8 @@ public class DSUB extends ALU_RType {
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
-    String rt = TR[RT_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK()
     //performing sign extension to detect IntegerOverflow
     rs = rs.charAt(0) + rs;
     rt = rt.charAt(0) + rt;
@@ -62,7 +62,7 @@ public class DSUB extends ALU_RType {
       outputstring = outputstring.substring(1, 65);
     }
 
-    TR[RD_FIELD].setBits(outputstring, 0);
+    this.resReg.setBits(outputstring, 0);;
 
   }
 

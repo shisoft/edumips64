@@ -47,34 +47,33 @@ class ANDI extends ALU_IType {
   }
   //since this operation is carried out with zero padding of immediate, against sign_extend(immediate) methodology
   //of all others instructions in the same category, is necessary the overriding of ID method
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid passing its own values into a temporary register
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-
-    TR[RS_FIELD] = rs;
-    //locking the target register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-    //writing the immediate value of "params" on a temporary register
-    TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
-    //forcing zero-padding in the same temporary register
-    StringBuffer sb = new StringBuffer();
-
-    for (int i = 0; i < 48; i++) {
-      sb.append('0');
-    }
-
-    sb.append(TR[IMM_FIELD].getBinString().substring(48, 64));
-    TR[IMM_FIELD].setBits(sb.substring(0), 0);
-    return false;
-  }
+//  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+//    //if the source register is valid passing its own values into a temporary register
+//    Register rs = cpu.getRegister(params.get(RS_FIELD));
+//
+//    TR[RS_FIELD] = rs;
+//    //locking the target register
+//    Register rt = cpu.getRegister(params.get(RT_FIELD));
+//    //writing the immediate value of "params" on a temporary register
+//    TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
+//    //forcing zero-padding in the same temporary register
+//    StringBuffer sb = new StringBuffer();
+//
+//    for (int i = 0; i < 48; i++) {
+//      sb.append('0');
+//    }
+//
+//    TR[IMM_FIELD].setBits(sb.substring(0), 0);
+//    return false;
+//  }
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String imm = TR[IMM_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String imm = this.reservationStation.getImme();
+    String rs = this.reservationStation.getValueJ();
     StringBuffer sb = new StringBuffer();
     boolean immbit, rsbit, resbit;
 
-    //performing bitwise OR between immediate and rs register
+    //performing bitwise AND between immediate and rs register
     for (int i = 0; i < 64; i++) {
       rsbit = rs.charAt(i) == '1';
       immbit = imm.charAt(i) == '1';
@@ -82,7 +81,7 @@ class ANDI extends ALU_IType {
       sb.append(resbit ? '1' : '0');
     }
 
-    TR[RT_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
 
   }
   @Override

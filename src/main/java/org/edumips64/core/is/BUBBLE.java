@@ -55,4 +55,23 @@ public class BUBBLE extends Instruction {
   public void pack() throws IrregularStringOfBitsException {
   }
 
+  @Override
+  public Integer op1() {
+    return null;
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }

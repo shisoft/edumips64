@@ -52,10 +52,10 @@ public class DSRLV extends ALU_RType {
   public void EX()
   throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String rs = TR[RS_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
     String shift = rs.substring(58);
     int shift_value = Converter.binToInt(shift, true);
-    String rt = TR[RT_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
     //composing new shifted value
     StringBuffer sb = new StringBuffer();
 

@@ -52,8 +52,8 @@ public class SLLV extends ALU_RType {
   @Override
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String rt = TR[RT_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
+    String rs = this.reservationStation.getValueJ();
     String shift = "";
     //getting the low order 5 bits from rs register
     shift = rs.substring(59);

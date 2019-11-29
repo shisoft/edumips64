@@ -54,24 +54,11 @@ public class DSRL extends ALU_RType {
     name = "DSRL";
     syntax = "%R,%R,%U";
   }
-  //since this operation is carried out writing sa value as unsigned value, it is necessary
-  //the overriding of ID method
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid passing his own value into a temporary register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    TR[RT_FIELD] = rt;
-    //writing on a temporary register the sa field as unsigned value
-    TR[SA_FIELD].writeDoubleWord(params.get(SA_FIELD));
-    //increment the semaphore of the destination register
-    Register rd = cpu.getRegister(params.get(RD_FIELD));
-    return false;
-  }
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     int sa = (int) TR[SA_FIELD].getValue();
-    String rt = TR[RT_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
     //composing new shifted value
     StringBuffer sb = new StringBuffer();
 

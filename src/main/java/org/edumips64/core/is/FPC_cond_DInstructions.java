@@ -132,4 +132,24 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
   public Type getFUType() {
     return Type.FPAdder;
   }
+
+  @Override
+  public Integer op1() {
+    return cpu.getInstructions() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return cpu.getInstructions() + params.get(FT_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }

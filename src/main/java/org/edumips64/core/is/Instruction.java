@@ -24,6 +24,7 @@ package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.*;
 import org.edumips64.core.tomasulo.TomasuloCPU;
+import org.edumips64.core.tomasulo.fu.ReservationStation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,10 +41,12 @@ public abstract class Instruction implements InstructionInterface {
   protected int paramCount;
   protected String syntax;
   protected String name;
+  protected ReservationStation reservationStation;
   private String comment;
-  //protected static CPU cpu;
-  protected Register[] TR; //is not static because each instruction has got its own registers
-  protected RegisterFP[] TRfp;
+
+  protected Register resReg;
+  protected RegisterFP resRegFP;
+
   protected String fullname;
   protected String label;
   protected static final Logger logger = Logger.getLogger(Instruction.class.getName());
@@ -69,20 +72,38 @@ public abstract class Instruction implements InstructionInterface {
     this.serialNumber = serialNumber;
   }
 
+  public ReservationStation getReservationStation() {
+    return reservationStation;
+  }
+
+  public void setReservationStation(ReservationStation reservationStation) {
+    this.reservationStation = reservationStation;
+  }
+
+  public Register getResReg() {
+    return resReg;
+  }
+
+  public RegisterFP getResRegFP() {
+    return resRegFP;
+  }
+
+  public void setResReg(Register resReg) {
+    this.resReg = resReg;
+  }
+
+  public void setResRegFP(RegisterFP resRegFP) {
+    this.resRegFP = resRegFP;
+  }
+
   /** Creates a new instance of Instruction */
   Instruction() {
     params = new LinkedList<>();
-    TR = new Register[5];
-    TRfp = new RegisterFP[5];
     repr = new BitSet32();
     syntax = "";
     repr.reset(false);
-
-    //initialization of temporary registers
-    for (int i = 0; i < TR.length; i++) {
-      TR[i] = new Register("TR " + i + "(Instruction " + serialNumber + ")");
-      TRfp[i] = new RegisterFP("TR (float) " + i + "(Instruction " + serialNumber + ")");
-    }
+    resReg = new Register("Inst.Result");
+    resRegFP = new RegisterFP("FPInst.Result");
   }
 
   /** <pre>
@@ -269,9 +290,4 @@ public abstract class Instruction implements InstructionInterface {
   public boolean isBubble() {
     return name.equals(" ");
   }
-
-  public abstract Integer op1();
-  public abstract Integer op2();
-  public abstract Integer dest();
-  public abstract Object imme();
 }

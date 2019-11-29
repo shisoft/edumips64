@@ -79,7 +79,7 @@ public abstract class FPMoveToInstructions extends FPMoveToAndFromInstructions {
   }
 
   @Override
-  public Object imme() {
+  public Integer imme() {
     return null;
   }
 }

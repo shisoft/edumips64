@@ -71,7 +71,7 @@ public class SRA extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     int sa = (int) TR[SA_FIELD].getValue();
-    String rt = TR[RT_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
     //cutting the high part of register
     rt = rt.substring(32, 64);
     //composing new shifted value and performing sign extension

@@ -46,8 +46,8 @@ class ADDI extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String imm = TR[IMM_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String imm = this.reservationStation.getImme();
+    String rs = this.reservationStation.getValueJ();
     //cutting the high part of registers
     imm = imm.substring(32, 64);
     rs = rs.substring(32, 64);
@@ -72,7 +72,7 @@ class ADDI extends ALU_IType {
         filledOutputstring = filledOutputstring.charAt(0) + filledOutputstring;
       }
 
-      TR[RT_FIELD].setBits(filledOutputstring, 0);
+      this.resReg.setBits(filledOutputstring, 0);
     }
   }
 

@@ -7,10 +7,6 @@ import org.edumips64.core.fpu.FPOverflowException;
 import org.edumips64.core.fpu.FPUnderflowException;
 import org.edumips64.core.tomasulo.fu.Type;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-
 /** Interface representing an instruction. It is essentially the view of an instruction
 * that the CPU has, and its purpose is breaking the circular dependency between the CPU class
 * and the Instruction class.*/
@@ -39,7 +35,7 @@ public interface InstructionInterface {
    * Windows).
    *</pre>
    **/
-  boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException;
+  // boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException;
 
   /**
    * <pre>
@@ -48,7 +44,7 @@ public interface InstructionInterface {
    * </pre>
    **/
 
-  void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException;
+  void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException, JumpException;
 
   /**
    * <pre>
@@ -69,4 +65,9 @@ public interface InstructionInterface {
   void setLabel(String label);
 
   Type getFUType();
+
+  Integer op1();
+  Integer op2();
+  Integer dest();
+  Integer imme();
 }

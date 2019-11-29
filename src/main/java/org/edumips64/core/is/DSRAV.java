@@ -54,8 +54,8 @@ public class DSRAV extends ALU_RType {
     int shift_value;
     String shift = "";
 
-    String rt = TR[RT_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String rt = this.reservationStation.getValueK()
+    String rs = this.reservationStation.getValueJ();
 
     shift = rs.substring(58);
     shift_value =  Converter.binToInt(shift, true);

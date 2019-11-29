@@ -72,7 +72,7 @@ public abstract class FPStoring extends FPLDSTInstructions {
   }
 
   @Override
-  public Object imme() {
+  public Integer imme() {
     return params.get(OFFSET_FIELD);
   }
 }

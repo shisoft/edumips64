@@ -55,11 +55,6 @@ public abstract class FPConditionalBranchesInstructions extends FlowControlInstr
     this.paramCount = 2;
   }
 
-  public abstract boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException;
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException {
-  }
-
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
   }
 

@@ -72,9 +72,5 @@ class CVT_W_D extends FPConversionFCSRInstructions {
     Register tmp = new Register("tmp-CVT.W.D");
     tmp.writeWord(bi.intValue());
     TRfp[FD_FIELD].setBits(tmp.getBinString(), 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
 }

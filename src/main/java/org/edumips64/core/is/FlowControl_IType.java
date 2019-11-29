@@ -70,13 +70,6 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     throw new JumpException();
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
-  }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException {
-  }
-
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
   }
 

@@ -70,7 +70,7 @@ class XORI extends ALU_IType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting values from temporary registers
     String imm = TR[IMM_FIELD].getBinString();
-    String rs = TR[RS_FIELD].getBinString();
+    String rs = this.reservationStation.getValueJ();
     boolean rsbit, immbit, result;
     StringBuffer sb = new StringBuffer();
 

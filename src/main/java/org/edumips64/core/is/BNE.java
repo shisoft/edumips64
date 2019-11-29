@@ -60,4 +60,25 @@ public class BNE extends FlowControl_IType {
     }
     return false;
   }
+
+
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(OFFSET_FIELD);
+  }
 }
