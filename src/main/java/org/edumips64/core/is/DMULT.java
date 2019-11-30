@@ -58,20 +58,12 @@ class DMULT extends ALU_RType {
     syntax = "%R,%R";
     name = "DMULT";
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
 
-    TR[RS_FIELD] = rs;
-    TR[RT_FIELD] = rt;
-    return false;
-  }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
 
     //getting values from temporary registers
-    BigInteger rs = new BigInteger(Long.toString(TR[RS_FIELD].getValue()));
-    BigInteger rt = new BigInteger(Long.toString(TR[RT_FIELD].getValue()));
+    BigInteger rs = new BigInteger(this.reservationStation.getValueJ(), 2);
+    BigInteger rt = new BigInteger(this.reservationStation.getValueK(), 2);
     BigInteger result = rs.multiply(rt);
 
     // Convert result to a String of 128-bit
@@ -89,8 +81,8 @@ class DMULT extends ALU_RType {
         tmp = "0" + tmp;
       }
 
-    hi = tmp.substring(0, 64);
-    lo = tmp.substring(64);
+    this.resReg.setBits(tmp.substring(0, 64), 0);
+    this.resRegBak.setBits(tmp.substring(64), 0);
   }
   public void WB() throws IrregularStringOfBitsException {
     doWB();
@@ -99,8 +91,8 @@ class DMULT extends ALU_RType {
     //passing results from temporary registers to destination registers and unlocking them
     Register lo = cpu.getLO();
     Register hi = cpu.getHI();
-    lo.setBits(this.lo, 0);
-    hi.setBits(this.hi, 0);
+    lo.setBits(this.resReg.getBinString(), 0);
+    hi.setBits(this.resRegBak.getBinString(), 0);
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)

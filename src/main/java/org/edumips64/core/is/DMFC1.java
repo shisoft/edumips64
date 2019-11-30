@@ -54,14 +54,4 @@ class DMFC1 extends FPMoveFromInstructions {
   public Type getFUType() {
     return Type.Integer;
   }
-
-  @Override
-  public Integer op1() {
-    return cpu.IntegerRegisters() + params.get(FS_FIELD);
-  }
-
-  @Override
-  public Integer dest() {
-    return params.get(RD_FIELD);
-  }
 }

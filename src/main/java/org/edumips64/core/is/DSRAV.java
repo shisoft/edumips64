@@ -54,7 +54,7 @@ public class DSRAV extends ALU_RType {
     int shift_value;
     String shift = "";
 
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     String rs = this.reservationStation.getValueJ();
 
     shift = rs.substring(58);
@@ -68,7 +68,7 @@ public class DSRAV extends ALU_RType {
     }
 
     sb.append(rt.substring(0, 64 - shift_value));
-    TR[RD_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
   }
 
   public Type getFUType() {

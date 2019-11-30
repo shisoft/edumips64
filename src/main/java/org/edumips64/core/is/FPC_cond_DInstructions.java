@@ -61,19 +61,9 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
     paramCount = 3;
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
-    RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-
-    TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
-    TRfp[FT_FIELD].setBits(ft.getBinString(), 0);
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, FPInvalidOperationException {
-    RegisterFP fs = TRfp[FS_FIELD];
-    RegisterFP ft = TRfp[FT_FIELD];
+    String fs = this.reservationStation.getValueJ();
+    String ft = this.reservationStation.getValueK();
     boolean less;
     boolean equal;
     boolean unordered;
@@ -86,26 +76,26 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
     boolean cond1 = COND_VALUE.charAt(2) == '1';  //codes the equal predicate
     boolean cond2 = COND_VALUE.charAt(1) == '1';  //codes the less predicate
 
-    if (FPInstructionUtils.isSNaN(fs.getBinString()) || FPInstructionUtils.isSNaN(ft.getBinString())
-        || FPInstructionUtils.isQNaN(fs.getBinString()) || FPInstructionUtils.isQNaN(ft.getBinString())) {
+    if (FPInstructionUtils.isSNaN(fs) || FPInstructionUtils.isSNaN(ft)
+        || FPInstructionUtils.isQNaN(fs) || FPInstructionUtils.isQNaN(ft)) {
       less = false;
       equal = false;
       unordered = true;
 
       //checking for invalid operation exception (if it is raised the FCSR isn't modified)
       //this exception occurs
-      if (FPInstructionUtils.isSNaN(fs.getBinString()) || FPInstructionUtils.isSNaN(ft.getBinString())
-          || (cpu.getFPExceptions(FCSRRegister.FPExceptions.INVALID_OPERATION) && (FPInstructionUtils.isQNaN(fs.getBinString()) || FPInstructionUtils.isQNaN(ft.getBinString())))) {
+      if (FPInstructionUtils.isSNaN(fs) || FPInstructionUtils.isSNaN(ft)
+          || (cpu.getFPExceptions(FCSRRegister.FPExceptions.INVALID_OPERATION) && (FPInstructionUtils.isQNaN(fs) || FPInstructionUtils.isQNaN(ft)))) {
         //before raising the trap or return the special value we modify the cause bit
         cpu.setFCSRCause("V", 1);
         throw new FPInvalidOperationException();
       }
     } else {
-      BigDecimal fsbd = new BigDecimal(Double.longBitsToDouble(Converter.binToLong(fs.getBinString(), false)));
-      BigDecimal ftbd = new BigDecimal(Double.longBitsToDouble(Converter.binToLong(ft.getBinString(), false)));
+      BigDecimal fsbd = new BigDecimal(Double.longBitsToDouble(Converter.binToLong(fs, false)));
+      BigDecimal ftbd = new BigDecimal(Double.longBitsToDouble(Converter.binToLong(ft, false)));
 
       less = fsbd.doubleValue() < ftbd.doubleValue();
-      equal = (fs.getBinString().compareTo(ft.getBinString()) == 0);
+      equal = (fs.compareTo(ft) == 0);
       unordered = false;
     }
 

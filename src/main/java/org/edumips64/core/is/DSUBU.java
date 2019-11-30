@@ -46,7 +46,7 @@ public class DSUBU extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
 
     String outputstring = InstructionsUtils.twosComplementSubstraction(rs, rt);
 

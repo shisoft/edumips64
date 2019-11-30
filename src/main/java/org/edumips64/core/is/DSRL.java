@@ -57,8 +57,8 @@ public class DSRL extends ALU_RType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    int sa = (int) TR[SA_FIELD].getValue();
-    String rt = this.reservationStation.getValueK()
+    int sa = this.reservationStation.getImme();
+    String rt = this.reservationStation.getValueJ();
     //composing new shifted value
     StringBuffer sb = new StringBuffer();
 
@@ -67,7 +67,7 @@ public class DSRL extends ALU_RType {
     }
 
     sb.append(rt.substring(0, 64 - sa));
-    TR[RD_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
@@ -79,5 +79,25 @@ public class DSRL extends ALU_RType {
 
   public Type getFUType() {
     return Type.Integer;
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return params.get(RD_FIELD);
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(SA_FIELD);
   }
 }

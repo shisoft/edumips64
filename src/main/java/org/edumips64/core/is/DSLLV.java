@@ -52,7 +52,7 @@ public class DSLLV extends ALU_RType {
 
   public void EX()
   throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     String rs = this.reservationStation.getValueJ();
     String shift = rs.substring(58);
     int shift_value = Converter.binToInt(shift, true);
@@ -64,7 +64,7 @@ public class DSLLV extends ALU_RType {
 
     String target = buf.substring(shift_value);
 
-    TR[RD_FIELD].setBits(target, 0);
+    this.resReg.setBits(target, 0);
   }
 
   public Type getFUType() {

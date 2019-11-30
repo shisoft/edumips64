@@ -54,24 +54,12 @@ public class DSLL extends ALU_RType {
     name = "DSLL";
     syntax = "%R,%R,%U";
   }
-  //since this operation is carried out writing sa value as unsigned value, it is necessary
-  //the overriding of ID method
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid passing his own value into a temporary register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
 
-    TR[RT_FIELD] = rt;
-    //writing on a temporary register the sa field as unsigned value
-    TR[SA_FIELD].writeDoubleWord(params.get(SA_FIELD));
-    //increment the semaphore of the destination register
-    Register rd = cpu.getRegister(params.get(RD_FIELD));
-    return false;
-  }
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    int sa = (int) TR[SA_FIELD].getValue();
-    String rt = this.reservationStation.getValueK()
+    int sa = this.reservationStation.getImme();
+    String rt = this.reservationStation.getValueJ();
     //composing new shifted value
     StringBuffer sb = new StringBuffer();
     sb.append(rt.substring(sa));
@@ -80,7 +68,7 @@ public class DSLL extends ALU_RType {
       sb.append('0');
     }
 
-    TR[RD_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
@@ -92,5 +80,25 @@ public class DSLL extends ALU_RType {
 
   public Type getFUType() {
     return Type.Integer;
+  }
+
+  @Override
+  public Integer op1() {
+    return params.get(RT_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return params.get(RD_FIELD);
+  }
+
+  @Override
+  public Integer imme() {
+    return params.get(SA_FIELD);
   }
 }
