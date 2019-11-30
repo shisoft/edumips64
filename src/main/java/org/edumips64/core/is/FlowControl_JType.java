@@ -49,7 +49,7 @@ public abstract class FlowControl_JType extends FlowControlInstructions {
     return false;
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException, JumpException {
   }
 
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {

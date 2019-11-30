@@ -27,6 +27,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /** *Syntax:    HALT
  * Description: To terminate the program execution
@@ -61,6 +62,31 @@ public class HALT extends Instruction {
 
   public void WB() throws HaltException, IrregularStringOfBitsException {
     throw new HaltException();
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.NOP;
+  }
+
+  @Override
+  public Integer op1() {
+    return null;
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
   }
 
   public void pack() throws IrregularStringOfBitsException {

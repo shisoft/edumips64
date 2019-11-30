@@ -26,6 +26,7 @@ package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.fpu.RegisterFP;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**This is the base class of the conditional move to and from instructions
  *
@@ -58,47 +59,10 @@ public abstract class FPConditionalCC_DMoveInstructions extends ComputationalIns
     this.syntax = "%F,%F,%C";
     this.paramCount = 3;
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid we pass its own value into a temporary register
-    RegisterFP fd = cpu.getRegisterFP(params.get(FD_FIELD));
-    RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
-
-    if (fs.getWriteSemaphore() > 0) {
-      return true;
-    }
-
-    TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
-    TRfp[FD_FIELD].setBits(fd.getBinString(), 0);
-
-    //locking the destination register
-    if (fd.getWAWSemaphore() > 0) {
-      throw new WAWException();
-    }
-
-    fd.incrWriteSemaphore();
-    fd.incrWAWSemaphore();
-    return false;
-  }
-  public void EX() throws IrregularStringOfBitsException {
-    String fs = TRfp[FS_FIELD].getBinString();
-
-    if (cpu.getFCSRConditionCode(params.get(CC_FIELD).intValue()) == TF_FIELD_VALUE) {
-      TRfp[FD_FIELD].setBits(fs, 0);
-    }
-  }
-  public void MEM() throws MemoryElementNotFoundException {
-    cpu.getRegisterFP(params.get(FD_FIELD)).decrWAWSemaphore();
-  }
-  public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
-  }
 
   public void doWB() throws IrregularStringOfBitsException {
     //passing result from temporary register to destination register and unlocking it
     cpu.getRegisterFP(params.get(FD_FIELD)).setBits(TRfp[FD_FIELD].getBinString(), 0);
-    cpu.getRegisterFP(params.get(FD_FIELD)).decrWriteSemaphore();
   }
 
   public void pack() throws IrregularStringOfBitsException {
@@ -113,4 +77,27 @@ public abstract class FPConditionalCC_DMoveInstructions extends ComputationalIns
     repr.setBits(MOVCF_FIELD_VALUE, MOVCF_FIELD_INIT);
   }
 
+  public Type getFUType() {
+    return Type.FPAdder;
+  }
+
+  @Override
+  public Integer op1() {
+    return cpu.IntegerRegisters() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return cpu.IntegerRegisters() + params.get(FD_FIELD);
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }

@@ -46,15 +46,11 @@ class MOVN_D extends FPConditionalZerosMoveInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String rt = this.reservationStation.getValueK()
-    String fs = TRfp[FS_FIELD].getBinString();
+    String fs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueK();
 
     if (!rt.matches("[0]{64}")) {
-      TRfp[FD_FIELD].setBits(fs, 0);
-    }
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
+      this.resRegFP.setBits(fs, 0);
     }
   }
 }

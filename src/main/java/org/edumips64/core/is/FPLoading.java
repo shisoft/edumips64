@@ -44,9 +44,7 @@ public abstract class FPLoading extends FPLDSTInstructions {
     Register base = cpu.getRegister(params.get(BASE_FIELD));
 
     //calculating  address (base+offset)
-    long address = base.getValue() + params.get(OFFSET_FIELD);
-    //saving address into a temporary register
-    TR[OFFSET_PLUS_BASE].writeDoubleWord(address);
+    this.offsetPlusBase = base.getValue() + params.get(OFFSET_FIELD);
     //locking ft register either in write mode or in read mode
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
     return false;

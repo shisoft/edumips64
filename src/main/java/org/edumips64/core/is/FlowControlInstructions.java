@@ -27,6 +27,7 @@ package org.edumips64.core.is;
 
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 
 /**This is the base class for FlowControl instructions
@@ -46,4 +47,8 @@ public abstract class FlowControlInstructions extends Instruction {
   public abstract void WB() throws IrregularStringOfBitsException;
   public abstract void pack() throws IrregularStringOfBitsException;
 
+  @Override
+  public Type getFUType() {
+    return Type.Integer;
+  }
 }

@@ -56,7 +56,7 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     String offset = bs.getBinString();
 
     Register pc = cpu.getPC();
-    String pc_old = cpu.getPC().getBinString();
+    String pc_old = Long.toBinaryString(this.getPc());
 
     //subtracting 4 to the pc_old temporary variable using bitset64 safe methods
     BitSet64 bs_temp = new BitSet64();

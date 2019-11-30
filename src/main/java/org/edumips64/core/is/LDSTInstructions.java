@@ -53,6 +53,8 @@ public abstract class LDSTInstructions extends Instruction {
   protected final static int OFFSET_FIELD_LENGTH = 16;
   protected final static int BASE_FIELD_LENGTH = 5;
 
+  protected long offsetPlusBase;
+
   // Size of the read/write operations. Must be set by derived classes
   protected byte memoryOpSize;
 
@@ -84,7 +86,7 @@ public abstract class LDSTInstructions extends Instruction {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException {
     // Compute the address
-    address = TR[OFFSET_PLUS_BASE].getValue();
+    address = this.offsetPlusBase;
 
     // Address must be >= 0
     if (address < 0) {

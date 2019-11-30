@@ -44,24 +44,11 @@ public class JALR extends FlowControl_RType {
     this.name = "JALR";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    // TODO(andrea): we should probably WAW on R31.
-    if (cpu.getRegister(params.get(RS_FIELD)).getWriteSemaphore() > 0) {
-      return true;
-    }
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException, JumpException {
     //saving PC value into a temporary register
-    cpu.getRegister(31).incrWriteSemaphore();  //deadlock !!!
-    TR[PC_VALUE].writeDoubleWord(cpu.getPC().getValue() - 4);
-    cpu.getPC().setBits(cpu.getRegister(params.get(RS_FIELD)).getBinString(), 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
-
+    cpu.getPC().setBits(this.reservationStation.getValueJ(), 0);
+    cpu.getRegister(31).setResult(getPc() - 4);
     throw new JumpException();
-  }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException {
   }
 
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
@@ -69,15 +56,29 @@ public class JALR extends FlowControl_RType {
 
 
   public void WB() throws IrregularStringOfBitsException {
-    if (!cpu.isEnableForwarding()) {
-      doWB();
-    }
+    doWB();
   }
-  public void doWB() throws IrregularStringOfBitsException {
-    cpu.getRegister(31).setBits(TR[PC_VALUE].getBinString(), 0);
-    cpu.getRegister(31).decrWriteSemaphore();  //deadlock!!!
+  public void doWB() throws IrregularStringOfBitsException {}
+
+  @Override
+  public Integer op1() {
+    return params.get(RS_FIELD);
   }
 
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
+  }
 }
 
 

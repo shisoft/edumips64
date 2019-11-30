@@ -44,7 +44,7 @@ class LDC1 extends FPLoading {
   public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
     super.MEM(); //unlock the fp register in order to avoid WAW hazards
     //restoring the address from the temporary register
-    long address = TR[OFFSET_PLUS_BASE].getValue();
+    long address = this.offsetPlusBase;
     //For the trace file
     dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, address)), 8);
 

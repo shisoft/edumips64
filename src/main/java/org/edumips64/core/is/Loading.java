@@ -48,7 +48,7 @@ public abstract class Loading extends LDSTInstructions {
     //calculating  address (base+offset)
     long address = base.getValue() + params.get(OFFSET_FIELD);
     //saving address into a temporary register
-    TR[OFFSET_PLUS_BASE].writeDoubleWord(address);
+    this.offsetPlusBase = address;
     //locking rt register
     Register rt = cpu.getRegister(params.get(RT_FIELD));
     return false;
@@ -93,7 +93,7 @@ public abstract class Loading extends LDSTInstructions {
 
   @Override
   public Integer imme() {
-    return params.get(OFFSET_FIELD);
+    return (int) this.offsetPlusBase;
   }
 }
 

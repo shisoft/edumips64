@@ -53,6 +53,7 @@ public abstract class Instruction implements InstructionInterface {
   protected String label;
   protected static final Logger logger = Logger.getLogger(Instruction.class.getName());
   private int serialNumber;
+  private int pc;
 
   /** CPU instance. It is set through setCPU, and it should always be set before the instruction is considered
    * fully built. InstructionBuilder + package-local instruction constructors enforce this.
@@ -302,5 +303,13 @@ public abstract class Instruction implements InstructionInterface {
    */
   public boolean isBubble() {
     return name.equals(" ");
+  }
+
+  public int getPc() {
+    return pc;
+  }
+
+  public void setPc(int pc) {
+    this.pc = pc;
   }
 }
