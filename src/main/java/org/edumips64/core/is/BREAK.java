@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /** *Syntax:    BREAK
  * Description: To cause a Breakpoint exception.
@@ -39,18 +40,6 @@ public class BREAK extends Instruction {
   private final String OPCODE_VALUE = "000000"; // SPECIAL
   BREAK() {
     name = "BREAK";
-  }
-  public void IF() throws BreakException {
-    try {
-      dinero.IF(Converter.binToHex(Converter.intToBin(64, cpu.getLastPC().getValue())));
-    } catch (IrregularStringOfBitsException e) {
-      e.printStackTrace();
-    }
-
-    throw new BreakException();
-  }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
   }
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
@@ -69,6 +58,10 @@ public class BREAK extends Instruction {
     repr.setBits("001101", 25);
   }
 
+  @Override
+  public Type getFUType() {
+    return Type.NOP;
+  }
 
   @Override
   public Integer op1() {

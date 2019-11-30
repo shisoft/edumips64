@@ -68,7 +68,7 @@ class ANDI extends ALU_IType {
 //  }
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String imm = this.reservationStation.getImme();
+    String imm = Long.toBinaryString(this.reservationStation.getImme());
     String rs = this.reservationStation.getValueJ();
     StringBuffer sb = new StringBuffer();
     boolean immbit, rsbit, resbit;

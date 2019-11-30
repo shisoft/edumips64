@@ -44,21 +44,16 @@ public class BNE extends FlowControl_IType {
     name = "BNE";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    if (cpu.getRegister(params.get(RS_FIELD)).getWriteSemaphore() > 0 || cpu.getRegister(params.get(RT_FIELD)).getWriteSemaphore() > 0) {
-      return true;
-    }
-
+  public void EX() throws JumpException, TwosComplementSumException, IrregularWriteOperationException, IrregularStringOfBitsException {
     //getting registers rs and rt
-    String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
-    String rt = cpu.getRegister(params.get(RT_FIELD)).getBinString();
+    String rs = this.reservationStation.getValueJ();
+    String rt = this.reservationStation.getValueJ();
     //converting offset into a signed binary value of 64 bits in length
     boolean condition = !rs.equals(rt);
 
     if (condition) {
       jumpToOffset(OFFSET_FIELD);
     }
-    return false;
   }
 
 

@@ -50,9 +50,9 @@ public class BC1F extends FPConditionalBranchesInstructions {
     boolean condition = cpu.getFCSRConditionCode(params.get(CC_FIELD)) == 0;
 
     //converting offset into a signed binary value of 64 bits in length
-    String imme = this.reservationStation.getImme();
+    Integer imme = this.reservationStation.getImme();
     BitSet64 bs = new BitSet64();
-    bs.writeHalf(Integer.parseInt(imme));
+    bs.writeHalf(imme);
     String offset = bs.getBinString();
 
     if (condition) {

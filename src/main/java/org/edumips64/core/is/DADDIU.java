@@ -48,11 +48,11 @@ class DADDIU extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting values from temporary registers
-    long imm = TR[IMM_FIELD].getValue();
-    long rs = TR[RS_FIELD].getValue();
+    String imm = Long.toBinaryString(this.imme());
+    String rs = this.reservationStation.getValueJ();
     //adding values without to control integer overflow
-    long result = imm + rs;
-    TR[RT_FIELD].writeDoubleWord(result);
+    String result = InstructionsUtils.twosComplementSum(rs, imm);
+    this.resReg.setBits(result, 0);
   }
 
   @Override

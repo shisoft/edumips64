@@ -56,21 +56,12 @@ class DDIV extends ALU_RType {
     syntax = "%R,%R";
     name = "DDIV";
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
 
-    TR[RS_FIELD] = rs;
-    TR[RT_FIELD] = rt;
-
-    return false;
-  }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, DivisionByZeroException {
 
     //getting values from temporary registers
-    long rs = TR[RS_FIELD].getValue();
-    long rt = TR[RT_FIELD].getValue();
+    long rs = Long.parseLong(this.reservationStation.getValueJ(), 2);
+    long rt = Long.parseLong(this.reservationStation.getValueK(), 2);
 
     //performing operations
     long quozient = 0;
@@ -85,8 +76,8 @@ class DDIV extends ALU_RType {
 
     //writing result in temporary registers
     try {
-      TR[LO_REG].writeDoubleWord(quozient);
-      TR[HI_REG].writeDoubleWord(remainder);
+      this.resReg.writeDoubleWord(quozient);
+      this.resRegBak.writeDoubleWord(remainder);
     } catch (IrregularWriteOperationException e) {
       e.printStackTrace();
     }
@@ -99,8 +90,8 @@ class DDIV extends ALU_RType {
     //passing results from temporary registers to destination registers and unlocking them
     Register lo = cpu.getLO();
     Register hi = cpu.getHI();
-    lo.setBits(TR[LO_REG].getBinString(), 0);
-    hi.setBits(TR[HI_REG].getBinString(), 0);
+    lo.setBits(this.resReg.getBinString(), 0);
+    hi.setBits(this.resRegBak.getBinString(), 0);
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)

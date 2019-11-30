@@ -45,8 +45,8 @@ class SLTI extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting values from temporary registers
-    long imm = TR[IMM_FIELD].getValue();
-    long rs = TR[RS_FIELD].getValue();
+    long imm = this.imme();
+    long rs = this.reservationStation.getValueJ();
 
     //comparing values without to control integer overflow
     if (rs < imm) {

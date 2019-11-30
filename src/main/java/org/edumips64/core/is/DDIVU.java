@@ -26,7 +26,6 @@ package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.tomasulo.fu.Type;
-
 import java.math.BigInteger;
 
 //per diagnostica
@@ -57,21 +56,11 @@ class DDIVU extends ALU_RType {
     syntax = "%R,%R";
     name = "DDIVU";
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    TR[RS_FIELD] = rs;
-    TR[RT_FIELD] = rt;
-
-    return false;
-  }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, DivisionByZeroException {
 
     //getting values from temporary registers
-    BigInteger rs = new BigInteger(TR[RS_FIELD].getHexString(), 16);
-    BigInteger rt = new BigInteger(TR[RT_FIELD].getHexString(), 16);
+    BigInteger rs = new BigInteger(this.reservationStation.getValueJ(), 2);
+    BigInteger rt = new BigInteger(this.reservationStation.getValueK(), 2);
 
     //performing operations
     BigInteger result[] = null;
@@ -89,7 +78,7 @@ class DDIVU extends ALU_RType {
       tmp = "0" + tmp;
     }
 
-    TR[LO_REG].setBits(tmp, 0);
+    this.resReg.setBits(tmp, 0);
 
     tmp = result[1].toString(2);  //reminder
 
@@ -97,7 +86,7 @@ class DDIVU extends ALU_RType {
       tmp = "0" + tmp;
     }
 
-    TR[HI_REG].setBits(tmp, 0);
+    this.resRegBak.setBits(tmp, 0);
   }
 
   public void WB() throws IrregularStringOfBitsException {
@@ -107,8 +96,8 @@ class DDIVU extends ALU_RType {
     //passing results from temporary registers to destination registers and unlocking them
     Register lo = cpu.getLO();
     Register hi = cpu.getHI();
-    lo.setBits(TR[LO_REG].getBinString(), 0);
-    hi.setBits(TR[HI_REG].getBinString(), 0);
+    lo.setBits(this.resReg.getBinString(), 0);
+    hi.setBits(this.resRegBak.getBinString(), 0);
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)

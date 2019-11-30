@@ -45,7 +45,9 @@ public abstract class Instruction implements InstructionInterface {
   private String comment;
 
   protected Register resReg;
+  protected Register resRegBak;
   protected RegisterFP resRegFP;
+  protected RegisterFP resRegFPBak;
 
   protected String fullname;
   protected String label;
@@ -96,6 +98,14 @@ public abstract class Instruction implements InstructionInterface {
     this.resRegFP = resRegFP;
   }
 
+  public Register getResRegBak() {
+    return resRegBak;
+  }
+
+  public RegisterFP getResRegFPBak() {
+    return resRegFPBak;
+  }
+
   /** Creates a new instance of Instruction */
   Instruction() {
     params = new LinkedList<>();
@@ -104,6 +114,9 @@ public abstract class Instruction implements InstructionInterface {
     repr.reset(false);
     resReg = new Register("Inst.Result");
     resRegFP = new RegisterFP("FPInst.Result");
+    resRegBak = new Register("Inst.ResultBak");
+    resRegFPBak = new RegisterFP("FPInst.ResultBak");
+
   }
 
   /** <pre>

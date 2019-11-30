@@ -46,12 +46,22 @@ class DMFC1 extends FPMoveFromInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String value = TRfp[FS_FIELD].getBinString();
-    TR[RT_FIELD].setBits(value, 0);
+    String value = this.reservationStation.getValueJ();
+    this.resReg.setBits(value, 0);
   }
 
   @Override
   public Type getFUType() {
     return Type.Integer;
+  }
+
+  @Override
+  public Integer op1() {
+    return cpu.IntegerRegisters() + params.get(FS_FIELD);
+  }
+
+  @Override
+  public Integer dest() {
+    return params.get(RD_FIELD);
   }
 }

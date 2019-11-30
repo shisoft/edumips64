@@ -46,7 +46,7 @@ class DADDI extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    String imm = TR[IMM_FIELD].getBinString();
+    String imm = Integer.toBinaryString(this.imme());
     String rs = this.reservationStation.getValueJ();
     //performing mips64 operations to detect IntegerOverflow
     rs = rs.charAt(0) + rs;
@@ -61,7 +61,7 @@ class DADDI extends ALU_IType {
       outputstring = outputstring.substring(1, 65);
     }
 
-    TR[RT_FIELD].setBits(outputstring, 0);
+    this.resReg.setBits(outputstring, 0);
   }
 
   @Override

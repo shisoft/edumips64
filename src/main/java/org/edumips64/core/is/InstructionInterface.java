@@ -13,14 +13,6 @@ import org.edumips64.core.tomasulo.fu.Type;
 public interface InstructionInterface {
   /**
    * <pre>
-   * Instruction fetch.
-   * Now it is used in order to generate the Dinero trace-file
-   *</pre>
-   */
-  default void IF() throws BreakException {}
-
-  /**
-   * <pre>
    * Decode stage of the Pipeline
    * In this method all instructions that modify GPRs lock the involved register
    *

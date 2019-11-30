@@ -22,6 +22,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**Name:       BUBBLE
  * Purpose:    Creating null spaces in the pipeline
@@ -39,10 +40,6 @@ public class BUBBLE extends Instruction {
     fullname = " ";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
   }
 
@@ -50,6 +47,11 @@ public class BUBBLE extends Instruction {
   }
 
   public void WB() throws IrregularStringOfBitsException {
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.NOP;
   }
 
   public void pack() throws IrregularStringOfBitsException {

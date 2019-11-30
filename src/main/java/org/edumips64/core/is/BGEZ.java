@@ -46,16 +46,15 @@ public class BGEZ extends FlowControl_IType {
     name = "BGEZ";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public void EX() throws JumpException, TwosComplementSumException, IrregularWriteOperationException, IrregularStringOfBitsException {
     //getting register rs
-    String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
+    String rs = this.reservationStation.getValueJ();
     //converting offset into a signed binary value of 64 bits in length
     boolean condition = rs.charAt(0) == '0';
 
     if (condition) {
       jumpToOffset(OFFSET_FIELD);
     }
-    return false;
   }
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);

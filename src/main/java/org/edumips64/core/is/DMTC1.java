@@ -45,8 +45,8 @@ class DMTC1 extends FPMoveToInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String value = TR[RT_FIELD].getBinString();
-    TRfp[FS_FIELD].setBits(value, 0);
+    String value = this.reservationStation.getValueJ();
+    this.resRegFP.setBits(value, 0);
   }
 
   @Override

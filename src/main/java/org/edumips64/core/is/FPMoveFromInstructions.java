@@ -57,18 +57,8 @@ public abstract class FPMoveFromInstructions extends FPMoveToAndFromInstructions
   }
 
   @Override
-  public Integer op1() {
-    return cpu.IntegerRegisters() + params.get(FS_FIELD);
-  }
-
-  @Override
   public Integer op2() {
     return null;
-  }
-
-  @Override
-  public Integer dest() {
-    return params.get(RT_FIELD);
   }
 
   @Override

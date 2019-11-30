@@ -5,5 +5,6 @@ public enum Type {
     FPMultiplier,
     FPDivider,
     Integer,
-    Memory
+    Memory,
+    NOP
 }

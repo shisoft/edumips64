@@ -45,14 +45,8 @@ public class BNEZ extends FlowControl_IType {
     name = "BNEZ";
   }
 
-  public boolean ISSUE()
-      throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //getting registers rs and rt
-    if (cpu.getRegister(params.get(RS_FIELD)).getWriteSemaphore() > 0) {
-      return true;
-    }
-
-    String rs = cpu.getRegister(params.get(RS_FIELD)).getBinString();
+  public void EX() throws JumpException, TwosComplementSumException, IrregularWriteOperationException, IrregularStringOfBitsException {
+    String rs = this.reservationStation.getValueJ();
     String zero = Converter.positiveIntToBin(64, 0);
     //converting offset into a signed binary value of 64 bits in length
     boolean condition = ! rs.equals(zero);
@@ -60,7 +54,6 @@ public class BNEZ extends FlowControl_IType {
     if (condition) {
       jumpToOffset(OFFSET_FIELD);
     }
-    return false;
   }
   public void pack() throws IrregularStringOfBitsException {
 

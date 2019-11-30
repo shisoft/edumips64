@@ -48,7 +48,7 @@ class DADD extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     //performing mips64 operations to detect IntegerOverflow
     rs = rs.charAt(0) + rs;
     rt = rt.charAt(0) + rt;

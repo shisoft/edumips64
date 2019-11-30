@@ -49,7 +49,7 @@ class CVT_W_D extends FPConversionFCSRInstructions {
 
   public void EX() throws IrregularStringOfBitsException, FPInvalidOperationException, IrregularWriteOperationException {
     //getting values from temporary registers
-    String fs = TRfp[FS_FIELD].getBinString();
+    String fs = this.reservationStation.getValueJ();
     BigInteger bi = FPInstructionUtils.doubleToBigInteger(fs, cpu.getFCSRRoundingMode());
     BigInteger biggest = new BigInteger("2147483647");  //2^31-1
     BigInteger smallest = new BigInteger("-2147483648");  //-2^31
@@ -71,6 +71,6 @@ class CVT_W_D extends FPConversionFCSRInstructions {
     //writing the int value into a temporary integer register in order to obtain the binary value
     Register tmp = new Register("tmp-CVT.W.D");
     tmp.writeWord(bi.intValue());
-    TRfp[FD_FIELD].setBits(tmp.getBinString(), 0);
+    this.resRegFP.setBits(tmp.getBinString(), 0);
   }
 }

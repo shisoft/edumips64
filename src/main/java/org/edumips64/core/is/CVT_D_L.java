@@ -50,7 +50,7 @@ class CVT_D_L extends FPConversionFCSRInstructions {
   public void EX() throws IrregularStringOfBitsException, FPInvalidOperationException, IrregularWriteOperationException, FPUnderflowException, FPOverflowException {
     //getting values from temporary registers
     BigDecimal bd;
-    String fs = TRfp[FS_FIELD].getBinString();
+    String fs = this.reservationStation.getValueJ();
 
     if ((bd = FPInstructionUtils.longToDouble(fs)) == null) {
       //before raising the trap or return the special value we modify the cause bit
@@ -60,10 +60,10 @@ class CVT_D_L extends FPConversionFCSRInstructions {
         throw new FPInvalidOperationException();
       } else {
         cpu.setFCSRFlags("V", 1);
-        TRfp[FD_FIELD].setBits("0000000000000000000000000000000000000000000000000000000000000000", 0);
+        this.resRegFP.setBits("0000000000000000000000000000000000000000000000000000000000000000", 0);
       }
     } else {
-      TRfp[FD_FIELD].writeDouble(bd.doubleValue());
+      this.resRegFP.writeDouble(bd.doubleValue());
     }
   }
 }

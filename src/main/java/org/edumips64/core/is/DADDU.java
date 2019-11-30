@@ -50,7 +50,7 @@ public class DADDU extends ALU_RType {
   throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting String from temporary register
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
 
     String outputstring = InstructionsUtils.twosComplementSum(rs, rt);
     //There isn't IntegerOverflow cases
