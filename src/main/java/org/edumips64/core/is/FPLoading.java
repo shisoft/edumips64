@@ -39,18 +39,15 @@ public abstract class FPLoading extends FPLDSTInstructions {
     super(memory);
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
+  public abstract void doEX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException;
+
+  public final void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {
     //if the base register is valid ...
-    Register base = cpu.getRegister(params.get(BASE_FIELD));
+    Integer base = Integer.parseInt(this.reservationStation.getValueJ(), 2);
 
     //calculating  address (base+offset)
-    this.offsetPlusBase = base.getValue() + params.get(OFFSET_FIELD);
-    //locking ft register either in write mode or in read mode
-    RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
-    return false;
-  }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException {
+    this.offsetPlusBase = base + params.get(OFFSET_FIELD);
+    doEX();
   }
 
   public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {

@@ -50,7 +50,7 @@ class SLTU extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     boolean rsbit, rtbit, diff, slt = false;
 
     //comparison between registers as unsigned integers
@@ -72,9 +72,9 @@ class SLTU extends ALU_RType {
     }
 
     if (slt) {
-      TR[RD_FIELD].writeDoubleWord(1);
+      this.resReg.writeDoubleWord(1);
     } else {
-      TR[RD_FIELD].writeDoubleWord(0);
+      this.resReg.writeDoubleWord(0);
     }
   }
 

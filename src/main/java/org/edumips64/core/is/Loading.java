@@ -54,12 +54,9 @@ public abstract class Loading extends LDSTInstructions {
     return false;
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, IrregularWriteOperationException, MemoryElementNotFoundException {
     // Will fill in the address variable.
     super.EX();
-
-    // Save memory access for Dinero trace file
-    dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, address)), memoryOpSize);
   }
 
   public void WB() throws IrregularStringOfBitsException {

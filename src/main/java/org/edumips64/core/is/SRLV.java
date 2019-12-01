@@ -51,7 +51,7 @@ public class SRLV extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     //cutting the high part of registers
     rs = rs.substring(32, 64);
     rt = rt.substring(32, 64);
@@ -66,7 +66,7 @@ public class SRLV extends ALU_RType {
     }
 
     sb.append(rt.substring(0, 32 - shift_value));
-    TR[RD_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
   }
   public Type getFUType() {
     return Type.Integer;

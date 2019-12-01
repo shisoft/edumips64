@@ -44,7 +44,7 @@ class LD extends Loading {
     this.name = "LD";
     this.memoryOpSize = 8;
   }
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    TR[LMD_REGISTER].setBits(memEl.getBinString(), 0);
+  public void EX() throws IrregularStringOfBitsException {
+    this.resReg.setBits(memEl.getBinString(), 0);
   }
 }

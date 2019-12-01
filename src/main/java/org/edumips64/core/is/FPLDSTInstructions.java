@@ -41,11 +41,7 @@ public abstract class FPLDSTInstructions extends LDSTInstructions {
     this.syntax = "%F,%L(%R)";
     this.paramCount = 3;
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
-  }
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException {}
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {}
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {}
   public void WB() throws IrregularStringOfBitsException {}
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of params list to the "repr" 32 binary value

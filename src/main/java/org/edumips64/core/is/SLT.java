@@ -46,7 +46,7 @@ public class SLT extends ALU_RType {
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException {
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
 
     long rs_value = Converter.binToLong(rs, false);
     long rt_value = Converter.binToLong(rt, false);
@@ -65,7 +65,7 @@ public class SLT extends ALU_RType {
       }
     }
 
-    TR[RD_FIELD].setBits(rd, 0);
+    this.resReg.setBits(rd, 0);
   }
 
   public Type getFUType() {

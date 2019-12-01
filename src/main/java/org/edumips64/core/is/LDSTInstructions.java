@@ -73,18 +73,7 @@ public abstract class LDSTInstructions extends Instruction {
     this.memory = memory;
   }
 
-  public void IF() {
-    try {
-      dinero.IF(Converter.binToHex(Converter.intToBin(64, cpu.getLastPC().getValue())));
-    } catch (IrregularStringOfBitsException e) {
-      e.printStackTrace();
-    }
-  }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
-  }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
     // Compute the address
     address = this.offsetPlusBase;
 

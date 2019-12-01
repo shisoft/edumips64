@@ -48,7 +48,8 @@ class SLTIU extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting values from temporary registers
-    String imm = Integer.toBinaryString(this.imme()); String rs = this.reservationStation.getValueJ();
+    String imm = Integer.toBinaryString(this.imme());
+    String rs = this.reservationStation.getValueJ();
     boolean rsbit, rtbit, diff, slt = false;
 
     //comparison between registers as unsigned integers
@@ -70,9 +71,9 @@ class SLTIU extends ALU_IType {
     }
 
     if (slt) {
-      TR[RT_FIELD].writeDoubleWord(1);
+      this.resReg.writeDoubleWord(1);
     } else {
-      TR[RT_FIELD].writeDoubleWord(0);
+      this.resReg.writeDoubleWord(0);
     }
   }
 

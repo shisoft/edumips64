@@ -57,8 +57,8 @@ public class SRAV extends ALU_RType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
-    int rs = (int) TR[RS_FIELD].getValue();
-    String rt = this.reservationStation.getValueK()
+    Integer rs = Integer.parseInt(this.reservationStation.getValueJ());
+    String rt = this.reservationStation.getValueK();
     //cutting the high part of register
     rt = rt.substring(32, 64);
     //composing new shifted value
@@ -69,7 +69,7 @@ public class SRAV extends ALU_RType {
     }
 
     sb.append(rt.substring(0, 32 - rs));
-    TR[RD_FIELD].setBits(sb.substring(0), 0);
+    this.resReg.setBits(sb.substring(0), 0);
   }
 
   public Type getFUType() {

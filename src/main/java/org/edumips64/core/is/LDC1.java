@@ -41,8 +41,9 @@ class LDC1 extends FPLoading {
     super.OPCODE_VALUE = OPCODE_VALUE;
     this.name = "LDC1";
   }
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    super.MEM(); //unlock the fp register in order to avoid WAW hazards
+
+  @Override
+  public void doEX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {
     //restoring the address from the temporary register
     long address = this.offsetPlusBase;
     //For the trace file
@@ -51,9 +52,7 @@ class LDC1 extends FPLoading {
     MemoryElement memEl = memory.getCellByAddress(address);
     //reading from the memory element and saving values on LMD register
     TR[LMD_REGISTER].setBits(memEl.getBinString(), 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
   }
+
+
 }

@@ -44,8 +44,8 @@ class LBU extends Loading {
     this.memoryOpSize = 1;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
+  public void EX() throws IrregularWriteOperationException {
     //reading first 8 low bits from the memory element and saving values on LMD register with zero padding
-    TR[LMD_REGISTER].writeByteUnsigned(memEl.readByteUnsigned((int)(address % 8)));
+    this.resReg.writeByteUnsigned(memEl.readByteUnsigned((int)(address % 8)));
   }
 }

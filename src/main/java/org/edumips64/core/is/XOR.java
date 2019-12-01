@@ -50,11 +50,11 @@ public class XOR extends ALU_RType {
 
   public void EX() throws IrregularStringOfBitsException {
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     String rd = "";
 
     rd = InstructionsUtils.xorOperation(rs, rt);
-    TR[RD_FIELD].setBits(rd, 0);
+    this.resReg.setBits(rd, 0);
 
   }
 

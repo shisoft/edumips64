@@ -44,7 +44,7 @@ class LB extends Loading {
     this.memoryOpSize = 1;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    TR[LMD_REGISTER].writeByte(memEl.readByte((int)(address % 8)));
+  public void EX() throws IrregularStringOfBitsException, AddressErrorException, IrregularWriteOperationException {
+    this.resReg.writeByte(memEl.readByte((int)(address % 8)));
   }
 }
