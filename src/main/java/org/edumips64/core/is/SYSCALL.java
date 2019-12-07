@@ -21,7 +21,11 @@
 package org.edumips64.core.is;
 
 import org.edumips64.core.*;
+import org.edumips64.core.fpu.FPDivideByZeroException;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.fpu.FPOverflowException;
+import org.edumips64.core.fpu.FPUnderflowException;
+import org.edumips64.core.tomasulo.fu.Type;
 import org.edumips64.utils.io.*;
 import java.util.logging.Logger;
 
@@ -35,8 +39,8 @@ public class SYSCALL extends Instruction {
   private String OPCODE_VALUE = "000000";
   private String FINAL_VALUE = "001100";
   private int syscall_n;
+  private Long address = 0L;
   private int return_value;
-  private long address;
 
   private Dinero din;
   private IOManager iom;
@@ -50,58 +54,24 @@ public class SYSCALL extends Instruction {
     this.memory = memory;
   }
 
-  public void IF() {
-    syscall_n = params.get(0);
-    logger.info("SYSCALL " + syscall_n + " (" + this.hashCode() + ") is in IF");
-
-    try {
-      dinero.IF(Converter.binToHex(Converter.intToBin(64, cpu.getLastPC().getValue())));
-    } catch (IrregularStringOfBitsException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException, StoppingException {
-    if (syscall_n == 0) {
-      throw new StoppingException();
-    } else if ((syscall_n > 0) && (syscall_n <= 5)) {
-      Register r14 = cpu.getRegister(14);
-
-      if (r14.getWriteSemaphore() > 0) {
-        return true;
-      }
-
-      Register r1 = cpu.getRegister(1);
-
-      // In WB, R1 <- Return value
-      r1.incrWriteSemaphore();
-      address = r14.getValue();
-      logger.info("SYSCALL (" + this.hashCode() + "): locked register R14. Value = " + address);
-    } else {
-      // TODO: invalid syscall
-      logger.info("INVALID SYSCALL (" + this.hashCode() + ")");
-    }
-    return false;
-  }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
-    logger.info("SYSCALL (" + this.hashCode() + ") -> EX");
-  }
-
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException, JumpException, MemoryElementNotFoundException, BreakException, HaltException {
     logger.info("SYSCALL (" + this.hashCode() + ") -> MEM");
-
+    syscall_n = params.get(0);
+    if (this.reservationStation.getValueJ() != null) {
+      address = Long.parseLong(this.reservationStation.getValueJ(), 2);
+    }
     if (syscall_n == 1) {
       // int open(const char* filename, int flags)
       String filename = fetchString(address);
-      int flags_address = (int) address + filename.length();
+      int flags_address = address.intValue() + filename.length();
       flags_address += 8 - (flags_address % 8);
 
       MemoryElement flags_m = memory.getCellByAddress(flags_address);
       int flags = (int) flags_m.getValue();
 
       // Memory access for the string and the flags (note the <=)
-      for (int i = (int) address; i <= flags_address; i += 8) {
+      for (int i = address.intValue(); i <= flags_address; i += 8) {
         dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, i)), 8);
       }
 
@@ -171,7 +141,7 @@ public class SYSCALL extends Instruction {
       logger.info("Read " + format_string);
 
       // Going to the next memory cell to start fetching parameters.
-      int next_param_address = (int) address + 8;
+      int next_param_address = address.intValue() + 8;
 
       // Let's record in the tracefile the format string's memory access
       // t1 will hold the address of the last memory cell accessed
@@ -192,50 +162,50 @@ public class SYSCALL extends Instruction {
         temp.append(format_string.substring(oldIndex, newIndex));
 
         switch (type) {
-        case 's':   // %s
-          tempMemCell = memory.getCellByAddress(next_param_address);
-          int str_address = (int) tempMemCell.getValue();
-          logger.info("Retrieving the string @ " + str_address + "...");
-          String param = fetchString(str_address);
+          case 's':   // %s
+            tempMemCell = memory.getCellByAddress(next_param_address);
+            int str_address = (int) tempMemCell.getValue();
+            logger.info("Retrieving the string @ " + str_address + "...");
+            String param = fetchString(str_address);
 
-          next_param_address += 8;
+            next_param_address += 8;
           /* Old, buggy behavior
           int old_param_address = next_param_address;
           next_param_address += param.length();
           next_param_address += 8 - (next_param_address % 8);
           */
 
-          // Tracefile entry for this string
-          int t2 = str_address + param.length();
-          t2 += 8 - (t2 % 8);
+            // Tracefile entry for this string
+            int t2 = str_address + param.length();
+            t2 += 8 - (t2 % 8);
 
-          for (int i = str_address; i < t2; i += 8) {
-            dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, i)), 8);
-          }
+            for (int i = str_address; i < t2; i += 8) {
+              dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, i)), 8);
+            }
 
-          logger.info("Got " + param);
-          temp.append(param);
-          break;
-        case 'i':   // %i
-        case 'd':   // %d
-          logger.info("Retrieving the integer @ " + next_param_address + "...");
-          MemoryElement memCell = memory.getCellByAddress(next_param_address);
+            logger.info("Got " + param);
+            temp.append(param);
+            break;
+          case 'i':   // %i
+          case 'd':   // %d
+            logger.info("Retrieving the integer @ " + next_param_address + "...");
+            MemoryElement memCell = memory.getCellByAddress(next_param_address);
 
-          // Tracefile entry for this memory access
-          dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, next_param_address)), 8);
+            // Tracefile entry for this memory access
+            dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, next_param_address)), 8);
 
-          Long val = memCell.getValue();
-          next_param_address += 8;
-          temp.append(val.toString());
-          logger.info("Got " + val);
-          break;
-        case '%':   // %%
-          logger.info("Literal %...");
-          temp.append('%');
-          break;
-        default:
-          logger.info("Unknown placeholder");
-          break;
+            Long val = memCell.getValue();
+            next_param_address += 8;
+            temp.append(val.toString());
+            logger.info("Got " + val);
+            break;
+          case '%':   // %%
+            logger.info("Literal %...");
+            temp.append('%');
+            break;
+          default:
+            logger.info("Unknown placeholder");
+            break;
         }
 
         oldIndex = newIndex + 2;
@@ -254,6 +224,7 @@ public class SYSCALL extends Instruction {
 
       return_value = temp.length();
     }
+    this.resReg.setBits(Integer.toBinaryString(return_value), 0);
   }
 
   private String fetchString(long address) throws MemoryElementNotFoundException {
@@ -281,23 +252,35 @@ public class SYSCALL extends Instruction {
     return temp.toString();
   }
 
-  public void WB() throws IrregularStringOfBitsException, HaltException {
-    logger.info("SYSCALL (" + this.hashCode() + ") -> WB. n = " + syscall_n);
+  @Override
+  public Type getFUType() {
+    return Type.NOP;
+  }
 
-    if (syscall_n == 0) {
-      logger.info("Stopped CPU due to SYSCALL (" + this.hashCode() + ")");
-      throw new HaltException();
-    } else if (syscall_n > 0 && syscall_n <= 5) {
-      logger.info("SYSCALL (" + this.hashCode() + "): setting R1 to " + return_value);
-      Register r1 = cpu.getRegister(1);
-      logger.info("SYSCALL (" + this.hashCode() + "): got R1");
-      r1.setBits(Converter.intToBin(64, return_value), 0);
-      logger.info("SYSCALL (" + this.hashCode() + "): set R1 to " + return_value);
-      // r1.decrWriteSemaphore();
-      logger.info("SYSCALL (" + this.hashCode() + "): decremented write semaphore");
+  @Override
+  public Integer op1() {
+    if ((syscall_n > 0) && (syscall_n <= 5)) {
+      return 14;
     }
+      return null;
+  }
 
-    logger.info("SYSCALL (" + this.hashCode() + ") exiting from WB. n = " + syscall_n);
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    if (syscall_n > 0 && syscall_n <= 5) {
+      return 1;
+    }
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
   }
 
   public void pack() throws IrregularStringOfBitsException {
