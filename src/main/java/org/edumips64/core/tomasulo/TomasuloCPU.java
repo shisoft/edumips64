@@ -496,6 +496,11 @@ public class TomasuloCPU {
             ex.printStackTrace();
         }
 
+        for (var fu: fus) {
+            fu.getReservationStation().reset();
+            fu.setStatus(Status.Idle);
+        }
+
         LO.reset();
         HI.reset();
 
