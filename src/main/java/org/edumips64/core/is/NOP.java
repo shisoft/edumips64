@@ -26,6 +26,7 @@
 package org.edumips64.core.is;
 import org.edumips64.core.*;
 import org.edumips64.core.fpu.FPInvalidOperationException;
+import org.edumips64.core.tomasulo.fu.Type;
 
 /**Syntax:     NOP
  * Description:Creating null spaces in the pipeline
@@ -38,18 +39,33 @@ public class NOP extends Instruction {
   NOP() {
     name = "NOP";
   }
-  public void IF() {
-    try {
-      dinero.IF(Converter.binToHex(Converter.intToBin(64, cpu.getLastPC().getValue())));
-    } catch (IrregularStringOfBitsException e) {
-      e.printStackTrace();
-    }
-  }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    return false;
-  }
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
+  }
+
+  @Override
+  public Type getFUType() {
+    return Type.NOP;
+  }
+
+  @Override
+  public Integer op1() {
+    return null;
+  }
+
+  @Override
+  public Integer op2() {
+    return null;
+  }
+
+  @Override
+  public Integer dest() {
+    return null;
+  }
+
+  @Override
+  public Integer imme() {
+    return null;
   }
 
   public void pack() throws IrregularStringOfBitsException {

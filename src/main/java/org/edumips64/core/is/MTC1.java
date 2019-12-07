@@ -44,12 +44,8 @@ class MTC1 extends FPMoveToInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //getting values from temporary registers
-    String value = TR[RT_FIELD].getBinString();
-    TRfp[FS_FIELD].setBits(value.substring(32, 64), 32);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+    String value = this.reservationStation.getValueJ();
+    this.resRegFP.setBits(value.substring(32, 64), 32);
   }
 
 }

@@ -56,6 +56,9 @@ public abstract class Instruction implements InstructionInterface {
   private int pc;
   private int functionUnit;
 
+  // Set to true if the Write Back stage should write data.
+  protected boolean should_write = true;
+
   /** CPU instance. It is set through setCPU, and it should always be set before the instruction is considered
    * fully built. InstructionBuilder + package-local instruction constructors enforce this.
    */
@@ -297,6 +300,9 @@ public abstract class Instruction implements InstructionInterface {
 
   public boolean WB() throws IrregularStringOfBitsException {
     assert this.dest() != null;
+    if (!this.should_write) {
+      return true;
+    }
     String out;
     if (this.dest() < this.cpu.IntegerRegisters()) {
       out = this.resReg.getBinString();

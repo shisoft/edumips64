@@ -72,6 +72,14 @@ public abstract class FPConditionalCC_DMoveInstructions extends ComputationalIns
     repr.setBits(MOVCF_FIELD_VALUE, MOVCF_FIELD_INIT);
   }
 
+  public void EX() throws IrregularStringOfBitsException {
+    String fs = this.reservationStation.getValueJ();
+
+    if (cpu.getFCSRConditionCode(params.get(CC_FIELD)) == TF_FIELD_VALUE) {
+      this.resRegFP.setBits(fs, 0);
+    }
+  }
+
   public Type getFUType() {
     return Type.FPAdder;
   }

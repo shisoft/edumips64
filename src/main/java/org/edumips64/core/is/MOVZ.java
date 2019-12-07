@@ -50,17 +50,10 @@ class MOVZ extends ALU_RType {
     name = "MOVZ";
   }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
-    if (TR[RT_FIELD].getValue() == 0) {
-      TR[RD_FIELD].setBits(TR[RS_FIELD].getBinString(), 0);
-      should_write = true;
-    }
-  }
-  public void doWB() throws IrregularStringOfBitsException {
-    // The doWB() method is overridden because it must check if the write
-    // on the registers must be done, checking the should_write variable.
-    if (should_write) {
-      logger.info("Writing to the dest register, since the condition is true.");
-      cpu.getRegister(params.get(RD_FIELD)).setBits(TR[RD_FIELD].getBinString(), 0);
+    if (Long.parseLong(this.reservationStation.getValueK(), 2) == 0) {
+      this.resReg.setBits(this.reservationStation.getValueJ(), 0);
+    } else {
+      should_write = false;
     }
   }
 

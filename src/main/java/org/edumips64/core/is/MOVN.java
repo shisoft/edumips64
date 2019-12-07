@@ -44,33 +44,21 @@ class MOVN extends ALU_RType {
   private final String OPCODE_VALUE = "001011";
   private static final Logger logger = Logger.getLogger(MOVN.class.getName());
 
-  // Set to true if the Write Back stage should write data.
-  private boolean should_write = false;
-
-
   MOVN() {
     super.OPCODE_VALUE = OPCODE_VALUE;
     name = "MOVN";
   }
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
-    if (TR[RT_FIELD].getValue() != 0) {
-      TR[RD_FIELD].setBits(TR[RS_FIELD].getBinString(), 0);
-      should_write = true;
+    if (Long.parseLong(this.reservationStation.getValueK(), 2) != 0) {
+      this.resReg.setBits(this.reservationStation.getValueJ(), 0);
+    } else {
+      should_write = false;
     }
   }
 
   @Override
   public Type getFUType() {
     return Type.Integer;
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    // The doWB() method is overridden because it must check if the write
-    // on the registers must be done, checking the should_write variable.
-    if (should_write) {
-      logger.info("Writing to the dest register, since the condition is true.");
-      cpu.getRegister(params.get(RD_FIELD)).setBits(TR[RD_FIELD].getBinString(), 0);
-    }
   }
 }

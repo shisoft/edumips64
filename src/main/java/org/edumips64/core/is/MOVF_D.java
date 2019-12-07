@@ -45,4 +45,8 @@ class MOVF_D extends FPConditionalCC_DMoveInstructions {
     super.name = NAME;
   }
 
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, FPInvalidOperationException {
+
+  }
 }

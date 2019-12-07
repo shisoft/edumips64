@@ -59,22 +59,11 @@ class MULT extends ALU_RType {
     syntax = "%R,%R";
     name = "MULT";
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid passing their own values into temporary registers
-    Register rs = cpu.getRegister(params.get(RS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    TR[RS_FIELD] = rs;
-    TR[RT_FIELD] = rt;
-    //locking the destination register
-    return false;
-  }
-
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting registers' values and cutting the first 32-bits
-    String str_rs = TR[RS_FIELD].getBinString();
-    String str_rt = TR[RT_FIELD].getBinString();
+    String str_rs = this.reservationStation.getValueJ();
+    String str_rt = this.reservationStation.getValueK();
     //cutting the high part of registers
     str_rs = str_rs.substring(32, 64);
     str_rt = str_rt.substring(32, 64);
