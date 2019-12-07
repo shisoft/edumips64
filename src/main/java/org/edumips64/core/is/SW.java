@@ -45,7 +45,10 @@ class SW extends Storing {
   }
 
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, NotAlignException, AddressErrorException, IrregularWriteOperationException {
-    memEl.writeWord(TR[RT_FIELD].readWord(0), (int)(address % 8));
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
+    super.EX();
+    this.resReg.setBits(this.reservationStation.getValueK(), 0);
+    memEl.writeWord(this.resReg.readWord(0), (int)(address % 8));
   }
 }

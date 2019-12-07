@@ -46,7 +46,10 @@ class SH extends Storing {
     this.memoryOpSize = 2;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, NotAlignException, AddressErrorException, IrregularWriteOperationException {
-    memEl.writeHalf(TR[RT_FIELD].readHalf(0), (int)(address % 8));
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
+    super.EX();
+    this.resReg.setBits(this.reservationStation.getValueK(), 0);
+    memEl.writeHalf(this.resReg.readHalf(0), (int)(address % 8));
   }
 }

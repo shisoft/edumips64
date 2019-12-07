@@ -47,8 +47,10 @@ public class SD extends Storing {
     this.memoryOpSize = 8;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    memEl.setBits(TR[RT_FIELD].getBinString(), 0);
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
+    super.EX();
+    memEl.setBits(this.reservationStation.getValueK(), 0);
   }
 }
 

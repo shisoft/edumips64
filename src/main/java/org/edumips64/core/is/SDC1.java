@@ -42,7 +42,7 @@ public class SDC1 extends FPStoring {
 
 
   @Override
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException {
     super.EX();
     try {
       //restoring the address from the temporary register

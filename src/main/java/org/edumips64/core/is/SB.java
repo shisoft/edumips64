@@ -43,7 +43,10 @@ class SB extends Storing {
     this.memoryOpSize = 1;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    memEl.writeByte(TR[RT_FIELD].readByte(0), (int)(address % 8));
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
+    super.EX();
+    this.resReg.setBits(this.reservationStation.getValueK(), 0);
+    memEl.writeByte(this.resReg.readByte(0), (int)(address % 8));
   }
 }

@@ -41,52 +41,36 @@ public abstract class Storing extends LDSTInstructions {
     super(memory);
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the base register and the rt register are valid passing value of rt register into a temporary register
-    Register base = cpu.getRegister(params.get(BASE_FIELD));
-    rt = cpu.getRegister(params.get(RT_FIELD));
-
-    if (base.getWriteSemaphore() > 0) {
-      logger.info("RAW in " + fullname + ": base register still needs to be written to.");
-      return true;
-    }
-
-    if (!cpu.isEnableForwarding()) {
-      if (rt.getWriteSemaphore() > 0) {
-        logger.info("RAW in " + fullname + ": rt register still needs to be written to.");
-        return true;
-      }
-
-      TR[RT_FIELD].setBits(rt.getBinString(), 0);
-    }
-
-    //calculating  address (base+offset)
-    long address = base.getValue() + params.get(OFFSET_FIELD);
-    //saving address into a temporary register
-    TR[OFFSET_PLUS_BASE].writeDoubleWord(address);
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
     // Will fill in the address variable.
-    memEl = memory.getCellByAddress(address);
+    //calculating  address (base+offset)
+    var base  = Long.parseLong(this.reservationStation.getValueJ(), 2);
+    this.offsetPlusBase = base + params.get(OFFSET_FIELD);
     super.EX();
+    // long address = ;
+    memEl = memory.getCellByAddress(address);
 
     // Save memory access for Dinero trace file
     dinero.Store(Converter.binToHex(Converter.positiveIntToBin(64, address)), memoryOpSize);
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, NotAlignException, AddressErrorException, IrregularWriteOperationException {
+  @Override
+  public Integer op1() {
+    return params.get(BASE_FIELD);
+  }
 
+  @Override
+  public Integer op2() {
+    return params.get(RT_FIELD);
+  }
 
-    if (cpu.isEnableForwarding()) {
-      TR[RT_FIELD].setBits(rt.getBinString(), 0);
-    }
+  @Override
+  public Integer dest() {
+    return null;
+  }
 
-    doMEM();
-
-    if (cpu.isEnableForwarding()) {
-      WB();
-    }
+  @Override
+  public Integer imme() {
+    return null;
   }
 }
