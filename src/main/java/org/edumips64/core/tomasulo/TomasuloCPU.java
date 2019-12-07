@@ -83,6 +83,8 @@ public class TomasuloCPU {
     /** BUBBLE */
     private InstructionInterface bubble;
 
+    public RegisterStatus[] registerStatuses = new RegisterStatus[64];
+
     /** Terminating instructions */
     private static ArrayList<String> terminating = new ArrayList<>(
             Arrays.asList("0000000C",     // SYSCALL 0
@@ -93,6 +95,7 @@ public class TomasuloCPU {
     public void setCpuStatusChangeCallback(Consumer<String> callback) {
         cpuStatusChangeCallback = callback;
     }
+
 
     public TomasuloCPU(Memory memory, ConfigStore config, InstructionInterface bubble) {
         this.config = config;
@@ -351,11 +354,12 @@ public class TomasuloCPU {
 
         cycles ++;
         try {
-            InstructionInterface next_if = mem.getInstruction(pc);
+            InstructionInterface next_if = mem.getInstruction((int) pc.getValue());
             logger.info("Fetched new instruction " + next_if);
-
-            old_pc.writeDoubleWord((pc.getValue()));
-            pc.writeDoubleWord((pc.getValue()) + 4);
+            if (this.reserve(next_if)) {
+                old_pc.writeDoubleWord((pc.getValue()));
+                pc.writeDoubleWord((pc.getValue()) + 4);
+            }
         } catch (JumpException ex) {
             logger.info("Executing a Jump.");
             try {
@@ -419,12 +423,14 @@ public class TomasuloCPU {
             cycles--;
             throw ex;
 
+        } catch (StoppingException e) {
+            e.printStackTrace();
         } finally {
             logger.info("End of cycle " + cycles + "\n---------------------------------------------\n" + pipeLineString() + "\n");
         }
     }
 
-    private boolean reserve(InstructionInterface ins) {
+    private boolean reserve(InstructionInterface ins) throws IrregularStringOfBitsException, WAWException, IrregularWriteOperationException, StoppingException, BreakException, TwosComplementSumException, FPInvalidOperationException, JumpException {
         for (FunctionUnit fu : this.fus) {
             if (fu.fuType() == ins.getFUType() && fu.getStatus() == Status.Idle) {
                 return fu.issue(ins);

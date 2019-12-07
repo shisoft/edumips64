@@ -100,15 +100,51 @@ public abstract class FunctionUnit {
 
     public boolean issue(InstructionInterface instruction) throws WAWException, IrregularWriteOperationException, StoppingException, BreakException, FPInvalidOperationException, TwosComplementSumException, JumpException, IrregularStringOfBitsException {
         assert this.getStatus() == Status.Idle;
-        int op1 = instruction.op1();
-        int op2 = instruction.op2();
-        int dest = instruction.dest();
-        int imme = instruction.imme();
+        Integer op1 = instruction.op1();
+        Integer op2 = instruction.op2();
+        Integer dest = instruction.dest();
+        Integer imme = instruction.imme();
 
+        if (dest != null) {
+            if (this.cpu.registerStatuses[dest].functionUnit != null) {
+                return false;
+            } else {
+                this.cpu.registerStatuses[dest].functionUnit = this.id;
+            }
+        }
 
+        if (op1 != null) {
+            var fu = this.cpu.registerStatuses[op1].functionUnit;
+            if (fu == null) {
+                this.reservationStation.setValueJ(this.get_register_data(op1));
+            } else {
+                this.reservationStation.setQj(fu);
+            }
+        }
 
-        instruction.ISSUE();
-        return false;
+        if (op2 != null) {
+            var fu = this.cpu.registerStatuses[op2].functionUnit;
+            if (fu == null) {
+                this.reservationStation.setValueK(this.get_register_data(op2));
+            } else {
+                this.reservationStation.setQk(fu);
+            }
+        }
+
+        if (imme != null) {
+            this.reservationStation.setImme(imme);
+        }
+
+        return true;
+    }
+
+    private String get_register_data(int id) {
+        int intRegs = this.cpu.IntegerRegisters();
+        if (id > intRegs) {
+            return this.cpu.getRegisterFP(id - intRegs).getBinString();
+        } else {
+            return this.cpu.getRegister(id).getBinString();
+        }
     }
 
     abstract void step_fu();
