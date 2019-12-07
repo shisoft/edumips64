@@ -54,6 +54,7 @@ public abstract class Instruction implements InstructionInterface {
   protected static final Logger logger = Logger.getLogger(Instruction.class.getName());
   private int serialNumber;
   private int pc;
+  private int functionUnit;
 
   /** CPU instance. It is set through setCPU, and it should always be set before the instruction is considered
    * fully built. InstructionBuilder + package-local instruction constructors enforce this.
@@ -292,6 +293,21 @@ public abstract class Instruction implements InstructionInterface {
   @Override
   public int hashCode() {
     return serialNumber;
+  }
+
+  public boolean WB() throws IrregularStringOfBitsException {
+    assert this.dest() != null;
+    String out;
+    if (this.dest() < this.cpu.IntegerRegisters()) {
+      out = this.resReg.getBinString();
+    } else {
+      out = this.resRegFP.getBinString();
+    }
+    return this.cpu.getCdb().set(this.functionUnit, out);
+  }
+
+  public void setFunctionUnit(int functionUnit) {
+    this.functionUnit = functionUnit;
   }
 
   /**<pre>

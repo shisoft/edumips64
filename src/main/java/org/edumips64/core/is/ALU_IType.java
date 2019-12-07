@@ -53,20 +53,6 @@ public abstract class ALU_IType extends ComputationalInstructions {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing result from temporary register to destination register and unlocking it
-    logger.info("WB of the ALU I-Type instruction. Writing " + this.resReg.getValue() + " to R" + params.get(RT_FIELD));
-    cpu.getRegister(params.get(RT_FIELD)).setBits(TR[RT_FIELD].getBinString(), 0);
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, 0);
     repr.setBits(Converter.intToBin(RS_FIELD_LENGTH, params.get(RS_FIELD)), RS_FIELD_INIT);

@@ -42,13 +42,8 @@ public class BREAK extends Instruction {
     name = "BREAK";
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
-  }
-
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, BreakException {
+    throw new BreakException();
   }
 
   public void pack() throws IrregularStringOfBitsException {

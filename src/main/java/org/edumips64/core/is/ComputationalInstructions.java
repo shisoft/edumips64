@@ -41,8 +41,6 @@ public abstract class ComputationalInstructions extends Instruction {
   }
   // public abstract boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException;
   public abstract void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, FPInvalidOperationException;
-  public abstract void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException;
-  public abstract void WB() throws IrregularStringOfBitsException;
   public abstract void pack() throws IrregularStringOfBitsException;
 
 

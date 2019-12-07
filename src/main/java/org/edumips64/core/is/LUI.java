@@ -52,20 +52,12 @@ class LUI extends ALU_IType {
     this.name = "LUI";
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the source register is valid passing its own values into a temporary register
-    //locking the target register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-    //writing the immediate value of "params" on a temporary register
-    TR[IMM_FIELD].writeHalf(params.get(IMM_FIELD));
-    return false;
-  }
   public void EX() throws IrregularStringOfBitsException, IrregularWriteOperationException {
     //getting strings from temporary registers
-    String imm = TR[IMM_FIELD].getBinString().substring(16, 64);
+    String imm = Long.toBinaryString(this.reservationStation.getImme()).substring(16, 64);
     String imm_shift = imm + "0000000000000000";
     long imm_shift_lng = Converter.binToLong(imm_shift, false);
-    TR[RT_FIELD].writeDoubleWord(imm_shift_lng);
+    this.resReg.writeDoubleWord(imm_shift_lng);
   }
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, 0);

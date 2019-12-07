@@ -41,8 +41,7 @@ public abstract class FPLDSTInstructions extends LDSTInstructions {
     this.syntax = "%F,%L(%R)";
     this.paramCount = 3;
   }
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {}
-  public void WB() throws IrregularStringOfBitsException {}
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException {}
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of params list to the "repr" 32 binary value
     repr.setBits(OPCODE_VALUE, 0);
@@ -50,10 +49,6 @@ public abstract class FPLDSTInstructions extends LDSTInstructions {
     repr.setBits(Converter.intToBin(FT_FIELD_LENGTH, params.get(FT_FIELD)), FT_FIELD_INIT);
     repr.setBits(Converter.intToBin(OFFSET_FIELD_LENGTH, params.get(OFFSET_FIELD)), OFFSET_FIELD_INIT);
   }
-
-  // FP Instructions don't use the doMEM method, let's provide an empty
-  // implementation.
-  public void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {};
 
 
 

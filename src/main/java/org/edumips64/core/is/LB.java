@@ -44,7 +44,8 @@ class LB extends Loading {
     this.memoryOpSize = 1;
   }
 
-  public void EX() throws IrregularStringOfBitsException, AddressErrorException, IrregularWriteOperationException {
+  public void EX() throws IrregularStringOfBitsException, AddressErrorException, IrregularWriteOperationException, IntegerOverflowException, NotAlignException, MemoryElementNotFoundException {
+    super.EX();
     this.resReg.writeByte(memEl.readByte((int)(address % 8)));
   }
 }

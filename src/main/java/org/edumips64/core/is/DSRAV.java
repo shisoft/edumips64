@@ -40,9 +40,6 @@ import org.edumips64.core.tomasulo.fu.Type;
  * @author Trubia Massimo, Russo Daniele
  */
 public class DSRAV extends ALU_RType {
-  private final int RD_FIELD = 0;
-  private final int RT_FIELD = 1;
-  private final int RS_FIELD = 2;
   private final String OPCODE_VALUE = "010111";
 
   DSRAV() {

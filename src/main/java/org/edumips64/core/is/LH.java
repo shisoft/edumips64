@@ -44,7 +44,9 @@ class LH extends Loading {
     this.memoryOpSize = 2;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    TR[LMD_REGISTER].writeHalf(memEl.readHalf((int)(address % 8)));
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, IrregularWriteOperationException, MemoryElementNotFoundException {
+    super.EX();
+    this.resReg.writeHalf(memEl.readHalf((int)(address % 8)));
   }
 }

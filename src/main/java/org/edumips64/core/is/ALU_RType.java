@@ -52,21 +52,6 @@ public abstract class ALU_RType extends ComputationalInstructions {
     paramCount = 3;
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException {
-  }
-
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing result from temporary register to destination register and unlocking it
-    cpu.getRegister(params.get(RD_FIELD)).setBits(TR[RD_FIELD].getBinString(), 0);
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);

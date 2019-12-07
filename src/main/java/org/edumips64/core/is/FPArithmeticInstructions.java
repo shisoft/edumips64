@@ -89,20 +89,6 @@ public abstract class FPArithmeticInstructions extends ComputationalInstructions
 
   protected abstract String doFPArith(String operand1, String operand2) throws FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, IrregularStringOfBitsException;
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing result from temporary register to destination register and unlocking it
-    cpu.getRegisterFP(params.get(FD_FIELD)).setBits(TRfp[FD_FIELD].getBinString(), 0);
-
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);

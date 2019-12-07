@@ -48,12 +48,6 @@ public class JR extends FlowControl_RType {
     throw new JumpException();
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   @Override
   public Integer op1() {
     return params.get(RS_FIELD);

@@ -93,15 +93,6 @@ public abstract class LDSTInstructions extends Instruction {
 
   }
 
-  // This is the method that actually stores/loads data to/from memory, and
-  // that is different for each concrete sub-class
-  public abstract void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException;
-
-  // Does the necessary operations (e.g., forwarding) before and after the
-  // execution of doMEM();
-  public abstract void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException;
-  public void WB() throws IrregularStringOfBitsException {}
-
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of params list to the "repr" 32 binary value
     repr.setBits(OPCODE_VALUE, 0);

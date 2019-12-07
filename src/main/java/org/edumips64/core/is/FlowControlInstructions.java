@@ -43,8 +43,6 @@ public abstract class FlowControlInstructions extends Instruction {
     }
   }
   public abstract void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException, JumpException, TwosComplementSumException;
-  public abstract void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException;
-  public abstract void WB() throws IrregularStringOfBitsException;
   public abstract void pack() throws IrregularStringOfBitsException;
 
   @Override

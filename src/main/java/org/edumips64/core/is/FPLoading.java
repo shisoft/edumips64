@@ -39,28 +39,15 @@ public abstract class FPLoading extends FPLDSTInstructions {
     super(memory);
   }
 
-  public abstract void doEX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException;
+  public abstract void doEX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException;
 
-  public final void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException {
+  public final void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException {
     //if the base register is valid ...
     Integer base = Integer.parseInt(this.reservationStation.getValueJ(), 2);
 
     //calculating  address (base+offset)
     this.offsetPlusBase = base + params.get(OFFSET_FIELD);
     doEX();
-  }
-
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    //since the load instruction reaches the MEM() stage, the (read) lock can be removed because WB() is reached first by the load instruction
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing memory value from temporary LMD register to the destination register and unlocking it
-    cpu.getRegisterFP(params.get(FT_FIELD)).setBits(TR[LMD_REGISTER].getBinString(), 0);
   }
 
   @Override

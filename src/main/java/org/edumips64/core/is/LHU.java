@@ -44,8 +44,10 @@ class LHU extends Loading {
     this.memoryOpSize = 2;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, IrregularWriteOperationException, MemoryElementNotFoundException {
+    super.EX();
     //reading from the memory element and saving values on LMD register
-    TR[LMD_REGISTER].writeHalfUnsigned(memEl.readHalfUnsigned((int)(address % 8)));
+    this.resReg.writeHalfUnsigned(memEl.readHalfUnsigned((int)(address % 8)));
   }
 }

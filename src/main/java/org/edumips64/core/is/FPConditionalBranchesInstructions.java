@@ -55,12 +55,6 @@ public abstract class FPConditionalBranchesInstructions extends FlowControlInstr
     this.paramCount = 2;
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(COP1_VALUE, COP1_FIELD_INIT);
     repr.setBits(BC_VALUE, BC_FIELD_INIT);

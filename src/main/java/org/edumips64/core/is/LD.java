@@ -44,7 +44,8 @@ class LD extends Loading {
     this.name = "LD";
     this.memoryOpSize = 8;
   }
-  public void EX() throws IrregularStringOfBitsException {
+  public void EX() throws IrregularStringOfBitsException, AddressErrorException, IrregularWriteOperationException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException {
+    super.EX();
     this.resReg.setBits(memEl.getBinString(), 0);
   }
 }

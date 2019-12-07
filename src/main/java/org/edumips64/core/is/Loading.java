@@ -41,36 +41,16 @@ public abstract class Loading extends LDSTInstructions {
     super(memory);
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the base register is valid ...
-    Register base = cpu.getRegister(params.get(BASE_FIELD));
-
-    //calculating  address (base+offset)
-    long address = base.getValue() + params.get(OFFSET_FIELD);
-    //saving address into a temporary register
-    this.offsetPlusBase = address;
-    //locking rt register
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-    return false;
-  }
-
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, IrregularWriteOperationException, MemoryElementNotFoundException {
     // Will fill in the address variable.
-    super.EX();
-  }
+    //if the base register is valid ...
 
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
+    //calculating  address (base+offset)
+    long address = Long.parseLong(this.reservationStation.getValueJ(), 2) + params.get(OFFSET_FIELD);
+    //saving address into a temporary register
+    this.offsetPlusBase = address;
     memEl = memory.getCellByAddress(address);
-    doMEM();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing memory value from temporary LMD register to the destination register and unlocking it
-    cpu.getRegister(params.get(RT_FIELD)).setBits(TR[LMD_REGISTER].getBinString(), 0);
+    super.EX();
   }
 
   @Override

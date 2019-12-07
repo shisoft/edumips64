@@ -43,19 +43,14 @@ class LWC1 extends FPLoading {
     this.name = "LWC1";
   }
 
-
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    super.MEM(); //unlock the fp register in order to avoid WAW hazards
+  @Override
+  public void doEX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException {
     //restoring the address from the temporary register
-    long address = TR[OFFSET_PLUS_BASE].getValue();
+    long address = this.offsetPlusBase;
     //For the trace file
     dinero.Load(Converter.binToHex(Converter.positiveIntToBin(64, address)), 4);
     MemoryElement memEl = memory.getCellByAddress(address);
     //reading from the memory element and saving values on LMD register
-    TR[LMD_REGISTER].writeWord(memEl.readWord((int)(address % 8)));
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+    this.resReg.writeWord(memEl.readWord((int)(address % 8)));
   }
 }

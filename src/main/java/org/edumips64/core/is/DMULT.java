@@ -84,15 +84,15 @@ class DMULT extends ALU_RType {
     this.resReg.setBits(tmp.substring(0, 64), 0);
     this.resRegBak.setBits(tmp.substring(64), 0);
   }
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-  public void doWB() throws IrregularStringOfBitsException {
+  public boolean WB() throws IrregularStringOfBitsException {
     //passing results from temporary registers to destination registers and unlocking them
     Register lo = cpu.getLO();
     Register hi = cpu.getHI();
     lo.setBits(this.resReg.getBinString(), 0);
     hi.setBits(this.resRegBak.getBinString(), 0);
+
+    // TODO: renaming lo and hi registers
+    return true;
   }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)

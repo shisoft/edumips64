@@ -41,29 +41,15 @@ class SWC1 extends FPStoring {
     this.name = "SWC1";
   }
 
-
-  public void MEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, MemoryElementNotFoundException, NotAlignException, IrregularWriteOperationException {
+    super.EX();
     //restoring the address from the temporary register
-    long address = TR[OFFSET_PLUS_BASE].getValue();
+    long address = this.offsetPlusBase;
     //For the trace file
     dinero.Store(Converter.binToHex(Converter.positiveIntToBin(64, address)), 4);
     MemoryElement memEl = memory.getCellByAddress(address);
     //writing on the memory element the RT register
-    memEl.writeWord(TR[RT_FIELD].readWord(0), (int)(address % 8));
-
+    memEl.writeWord(Long.parseLong(this.reservationStation.getValueK(), 2), (int)(address % 8));
   }
-
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException {
-
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
-
-
-
-
 }
 

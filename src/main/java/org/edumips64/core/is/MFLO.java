@@ -51,21 +51,12 @@ class MFLO extends ALU_RType {
     syntax = "%R";
     name = "MFLO";
   }
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if the LO register is valid passing his own value into temporary register
-    Register lo_reg = cpu.getLO();
 
-    TR[LO_REG] = lo_reg;
-    //locking the destination register
-    Register rd = cpu.getRegister(params.get(RD_FIELD));
-    return false;
-  }
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
+    // TODO: renaming HI abd LO registers
+    this.resReg.setBits(cpu.getLO().getBinString(), 0);
   }
 
-  public void doWB() throws IrregularStringOfBitsException {
-    cpu.getRegister(params.get(RD_FIELD)).setBits(TR[LO_REG].getBinString(), 0);
-  }
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);

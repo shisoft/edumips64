@@ -54,14 +54,11 @@ public class HALT extends Instruction {
     throw new StoppingException();
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, HaltException {
+    throw new HaltException();
   }
 
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-  }
-
-  public void WB() throws HaltException, IrregularStringOfBitsException {
-    throw new HaltException();
   }
 
   @Override

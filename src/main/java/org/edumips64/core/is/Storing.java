@@ -67,8 +67,9 @@ public abstract class Storing extends LDSTInstructions {
     return false;
   }
 
-  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException {
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, MemoryElementNotFoundException, IrregularWriteOperationException {
     // Will fill in the address variable.
+    memEl = memory.getCellByAddress(address);
     super.EX();
 
     // Save memory access for Dinero trace file
@@ -76,7 +77,7 @@ public abstract class Storing extends LDSTInstructions {
   }
 
   public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, NotAlignException, AddressErrorException, IrregularWriteOperationException {
-    memEl = memory.getCellByAddress(address);
+
 
     if (cpu.isEnableForwarding()) {
       TR[RT_FIELD].setBits(rt.getBinString(), 0);

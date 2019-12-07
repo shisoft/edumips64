@@ -104,8 +104,6 @@ public abstract class FPC_cond_DInstructions extends ComputationalInstructions {
     condition_int = condition ? 1 : 0;
     cpu.setFCSRConditionCode(params.get(CC_FIELD).intValue(), condition_int);
   }
-  public void MEM() {}
-  public void WB() {};
 
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)

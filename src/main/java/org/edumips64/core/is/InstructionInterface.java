@@ -36,7 +36,7 @@ public interface InstructionInterface {
    * </pre>
    **/
 
-  void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException, JumpException, MemoryElementNotFoundException;
+  void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException, DivisionByZeroException, NotAlignException, FPInvalidOperationException, FPUnderflowException, FPOverflowException, FPDivideByZeroException, AddressErrorException, JumpException, MemoryElementNotFoundException, BreakException, HaltException;
 
   /**
    * <pre>
@@ -44,7 +44,7 @@ public interface InstructionInterface {
    * In this stage all instructions that modify registers write and unlock them
    * </pre>
    **/
-  void WB() throws HaltException, IrregularStringOfBitsException;
+  boolean WB() throws HaltException, IrregularStringOfBitsException;
 
   String getName();
   String getLabel();

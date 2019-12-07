@@ -44,7 +44,9 @@ class LWU extends Loading {
     this.memoryOpSize = 4;
   }
 
-  public void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    TR[LMD_REGISTER].writeWordUnsigned(memEl.readWordUnsigned((int)(address % 8)));
+  @Override
+  public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, NotAlignException, AddressErrorException, IrregularWriteOperationException, MemoryElementNotFoundException {
+    super.EX();
+    this.resReg.writeWordUnsigned(memEl.readWordUnsigned((int)(address % 8)));
   }
 }

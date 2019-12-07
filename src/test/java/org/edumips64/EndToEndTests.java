@@ -30,7 +30,6 @@ import org.edumips64.core.fpu.RegisterFP;
 import org.edumips64.core.is.*;
 import org.edumips64.core.parser.Parser;
 import org.edumips64.core.parser.ParserMultiWarningException;
-import org.edumips64.utils.CycleBuilder;
 import org.edumips64.utils.CycleElement;
 import org.edumips64.utils.ConfigKey;
 import org.edumips64.core.IrregularStringOfBitsException;

@@ -43,12 +43,6 @@ public class BUBBLE extends Instruction {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   @Override
   public Type getFUType() {
     return Type.NOP;

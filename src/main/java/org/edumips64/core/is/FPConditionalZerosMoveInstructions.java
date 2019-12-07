@@ -57,14 +57,6 @@ public abstract class FPConditionalZerosMoveInstructions extends ComputationalIn
 
   public abstract void EX() throws IrregularStringOfBitsException;
   public void MEM() throws MemoryElementNotFoundException {};
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing result from temporary register to destination register and unlocking it
-    cpu.getRegisterFP(params.get(FD_FIELD)).setBits(TRfp[FD_FIELD].getBinString(), 0);
-  }
 
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of params list to the "repr" 32 binary value

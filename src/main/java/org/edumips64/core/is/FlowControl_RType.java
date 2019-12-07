@@ -52,12 +52,6 @@ public abstract class FlowControl_RType extends FlowControlInstructions {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, IrregularWriteOperationException, JumpException {
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     //conversion of instruction parameters of "params" list to the "repr" form (32 binary value)
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);

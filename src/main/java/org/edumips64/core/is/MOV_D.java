@@ -46,12 +46,8 @@ class MOV_D extends FPFormattedOperandMoveInstructions {
 
   public void EX() throws IrregularStringOfBitsException {
     //moving values from the source temporary register to the destination one
-    String value = TRfp[FS_FIELD].getBinString();
-    TRfp[FD_FIELD].setBits(value, 0);
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+    String value = this.reservationStation.getValueJ();
+    this.resRegFP.setBits(value, 0);
   }
 
 }

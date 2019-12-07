@@ -38,25 +38,7 @@ public abstract class FPMoveToInstructions extends FPMoveToAndFromInstructions {
   FPMoveToInstructions() {
   }
 
-  public boolean ISSUE() throws IrregularWriteOperationException, IrregularStringOfBitsException, TwosComplementSumException, JumpException, BreakException, WAWException, FPInvalidOperationException {
-    //if source registers are valid we pass their own values into temporary registers
-    RegisterFP fs = cpu.getRegisterFP(params.get(FS_FIELD));
-    Register rt = cpu.getRegister(params.get(RT_FIELD));
-
-    TRfp[FS_FIELD].setBits(fs.getBinString(), 0);
-    TR[RT_FIELD].setBits(rt.getBinString(), 0);
-    return false;
-  }
   public abstract void EX() throws IrregularStringOfBitsException;
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
-  public void doWB() throws IrregularStringOfBitsException {
-    //passing result from temporary register to destination register and unlocking it
-    cpu.getRegisterFP(params.get(FS_FIELD)).setBits(TRfp[FS_FIELD].getBinString(), 0);
-  }
 
   @Override
   public Type getFUType() {

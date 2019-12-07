@@ -45,12 +45,8 @@ class MFC1 extends FPMoveFromInstructions {
 
   public void EX() throws IrregularStringOfBitsException, IrregularWriteOperationException {
     //getting values from temporary registers
-    String value = TRfp[FS_FIELD].getBinString();
-    TR[RT_FIELD].writeWord(Converter.binToInt(value.substring(32, 64), false));
-
-    if (cpu.isEnableForwarding()) {
-      doWB();
-    }
+    String value = this.reservationStation.getValueJ();
+    this.resReg.writeWord(Converter.binToInt(value.substring(32, 64), false));
   }
 
 

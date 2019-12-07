@@ -49,7 +49,7 @@ class ADDIU extends ALU_IType {
 
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException, IrregularWriteOperationException {
     //getting values from temporary registers
-    String imm = this.reservationStation.getImme();
+    String imm = Long.toBinaryString(this.reservationStation.getImme());
     String rs = this.reservationStation.getValueJ();
     //cutting the high part of registers
     imm = imm.substring(32, 64);

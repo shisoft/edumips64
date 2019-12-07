@@ -58,12 +58,6 @@ public class J extends FlowControl_JType {
     throw new JumpException();
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   @Override
   public Integer op1() {
     return null;

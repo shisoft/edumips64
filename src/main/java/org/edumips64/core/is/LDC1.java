@@ -51,7 +51,7 @@ class LDC1 extends FPLoading {
 
     MemoryElement memEl = memory.getCellByAddress(address);
     //reading from the memory element and saving values on LMD register
-    TR[LMD_REGISTER].setBits(memEl.getBinString(), 0);
+    this.resReg.setBits(memEl.getBinString(), 0);
   }
 
 

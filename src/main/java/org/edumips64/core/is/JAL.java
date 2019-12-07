@@ -60,14 +60,6 @@ public class JAL extends FlowControl_JType {
     throw new JumpException();
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-
-  public void WB() throws IrregularStringOfBitsException {
-    doWB();
-  }
-
   @Override
   public Integer op1() {
     return null;

@@ -45,6 +45,6 @@ class LW extends Loading {
   }
 
   public void doMEM() throws IrregularStringOfBitsException, NotAlignException, MemoryElementNotFoundException, AddressErrorException, IrregularWriteOperationException {
-    TR[LMD_REGISTER].writeWord(memEl.readWord((int)(address % 8)));
+    this.resReg.writeWord(memEl.readWord((int)(address % 8)));
   }
 }

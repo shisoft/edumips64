@@ -70,12 +70,6 @@ public abstract class FlowControl_IType extends FlowControlInstructions {
     throw new JumpException();
   }
 
-  public void MEM() throws IrregularStringOfBitsException, MemoryElementNotFoundException {
-  }
-
-  public void WB() throws IrregularStringOfBitsException {
-  }
-
   public void pack() throws IrregularStringOfBitsException {
     repr.setBits(OPCODE_VALUE, OPCODE_VALUE_INIT);
     repr.setBits(Converter.intToBin(RS_FIELD_LENGTH, params.get(RS_FIELD)), RS_FIELD_INIT);
