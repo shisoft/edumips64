@@ -27,12 +27,13 @@ package org.edumips64.utils;
 
 import org.edumips64.core.Pipeline;
 import org.edumips64.core.is.InstructionInterface;
+import org.edumips64.core.tomasulo.TomasuloCPU;
 
 import java.util.*;
 import java.util.logging.Logger;
 
 public class CycleBuilder {
-  private CPU cpu;
+  private TomasuloCPU cpu;
   private int curTime, oldTime;
   private int instructionsCount;
 
@@ -62,7 +63,7 @@ public class CycleBuilder {
   private int oldInputStructuralStalls;
   private List<CycleElement> lastElements;
 
-  public CycleBuilder(CPU cpu) {
+  public CycleBuilder(TomasuloCPU cpu) {
     this.cpu = cpu;
     elementsList = new ArrayList<>();
     lastElements = new ArrayList<>();

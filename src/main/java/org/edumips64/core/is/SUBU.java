@@ -46,7 +46,7 @@ public class SUBU extends ALU_RType {
   public void EX() throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     //cutting the high part of registers
     rs = rs.substring(32, 64);
     rt = rt.substring(32, 64);

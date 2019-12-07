@@ -42,7 +42,7 @@ public abstract class FPStoring extends FPLDSTInstructions {
     Register base = cpu.getRegister(params.get(BASE_FIELD));
     RegisterFP ft = cpu.getRegisterFP(params.get(FT_FIELD));
 
-    TR[FT_FIELD].setBits(ft.getBinString(), 0);
+     TR[FT_FIELD].setBits(ft.getBinString(), 0);
     //calculating  address (base+offset)
     long address = base.getValue() + params.get(OFFSET_FIELD);
     //saving address into a temporary register

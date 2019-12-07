@@ -56,7 +56,7 @@ public class JAL extends FlowControl_JType {
     String pc_significant = pc_all.substring(0, 36);
     String pc_new = pc_significant + instr_index;
     pc.setBits(pc_new, 0);
-    cpu.getRegister(31).setBits(Long.toBinaryString(getPc() - 4), 0);
+    this.resReg.setBits(Long.toBinaryString(getPc() - 4), 0);
     throw new JumpException();
   }
 
@@ -80,7 +80,7 @@ public class JAL extends FlowControl_JType {
 
   @Override
   public Integer dest() {
-    return null;
+    return 31;
   }
 
   @Override

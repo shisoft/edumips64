@@ -74,16 +74,16 @@ public abstract class FunctionUnit {
                 Integer qk = this.reservationStation.getQk();
                 assert qj != null || qk != null;
                 if (qj != null) {
-                    OptionalLong cdbRes = this.cdb.get(qj);
-                    if (cdbRes.isPresent()) {
-                       this.reservationStation.setValueJ(cdbRes.getAsLong());
+                    String cdbRes = this.cdb.get(qj);
+                    if (cdbRes != null) {
+                       this.reservationStation.setValueJ(cdbRes);
                        this.reservationStation.setQj(null);
                     }
                 }
                 if (qk != null) {
-                    OptionalLong cdbRes = this.cdb.get(qk);
-                    if (cdbRes.isPresent()) {
-                        this.reservationStation.setValueK(cdbRes.getAsLong());
+                    String cdbRes = this.cdb.get(qk);
+                    if (cdbRes != null) {
+                        this.reservationStation.setValueK(cdbRes);
                         this.reservationStation.setQk(null);
                     }
                 }
@@ -115,7 +115,7 @@ public abstract class FunctionUnit {
 
     public abstract int steps_remain();
 
-    abstract long get_fu_result();
+    abstract String get_fu_result();
 
     public abstract Type fuType();
 }

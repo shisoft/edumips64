@@ -51,7 +51,7 @@ public class OR extends ALU_RType {
   throws IrregularStringOfBitsException, IntegerOverflowException, TwosComplementSumException {
     //getting strings from temporary registers
     String rs = this.reservationStation.getValueJ();
-    String rt = this.reservationStation.getValueK()
+    String rt = this.reservationStation.getValueK();
     //performing bitwise OR between string values
     boolean rsbit, rtbit, resbit;
     String outputstring = "";

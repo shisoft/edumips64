@@ -5,9 +5,9 @@ import java.util.OptionalLong;
 public class CommonDataBus {
     private boolean busy;
     private int fuSorce;
-    private long value;
+    private String value;
 
-    public boolean set(int source, long value) {
+    public boolean set(int source, String value) {
         if (busy) {
             return false;
         }
@@ -17,12 +17,14 @@ public class CommonDataBus {
         return true;
     }
 
-    public OptionalLong get(int source) {
-        if (!busy && fuSorce == source) {
-            return OptionalLong.empty();
-        } else  {
+    public String get(int source) {
+        if (fuSorce != source) {
+            return null;
+        } else if (busy) {
             busy = false;
-            return OptionalLong.of(value);
+            return value;
+        } else {
+            return null;
         }
     }
 }

@@ -45,7 +45,6 @@ public abstract class LDSTInstructions extends Instruction {
   protected final static int OFFSET_FIELD = 1;
   protected final static int BASE_FIELD = 2;
   protected final static int LMD_REGISTER = 3;
-  protected final static int OFFSET_PLUS_BASE = 4;
   private final static int RT_FIELD_INIT = 11;
   protected final static int OFFSET_FIELD_INIT = 16;
   protected final static int BASE_FIELD_INIT = 6;
