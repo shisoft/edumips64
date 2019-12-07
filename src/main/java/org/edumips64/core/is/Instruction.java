@@ -54,7 +54,12 @@ public abstract class Instruction implements InstructionInterface {
   protected static final Logger logger = Logger.getLogger(Instruction.class.getName());
   private int serialNumber;
   private int pc;
-  private int functionUnit;
+  private Integer functionUnit;
+
+  public Integer IssueCycle;
+  public Integer ExecCycle;
+  public Integer WBCycle;
+  public Integer CountDown;
 
   // Set to true if the Write Back stage should write data.
   protected boolean should_write = true;
@@ -121,7 +126,7 @@ public abstract class Instruction implements InstructionInterface {
     resRegFP = new RegisterFP("FPInst.Result");
     resRegBak = new Register("Inst.ResultBak");
     resRegFPBak = new RegisterFP("FPInst.ResultBak");
-
+    functionUnit = null;
   }
 
   /** <pre>
@@ -333,5 +338,42 @@ public abstract class Instruction implements InstructionInterface {
 
   public void setPc(int pc) {
     this.pc = pc;
+  }
+
+  public Integer getIssueCycle() {
+    return IssueCycle;
+  }
+
+  public void setIssueCycle(Integer issueCycle) {
+    IssueCycle = issueCycle;
+  }
+
+  public Integer getExecCycle() {
+    return ExecCycle;
+  }
+
+  public void setExecCycle(Integer execCycle) {
+    ExecCycle = execCycle;
+  }
+
+  public Integer getWBCycle() {
+    return WBCycle;
+  }
+
+  public void setWBCycle(Integer WBCycle) {
+    this.WBCycle = WBCycle;
+  }
+
+  public Integer getCountDown() {
+    return CountDown;
+  }
+
+  public void setCountDown(Integer countDown) {
+    CountDown = countDown;
+  }
+
+  @Override
+  public Integer getFunctionUnit() {
+    return functionUnit;
   }
 }

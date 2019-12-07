@@ -55,50 +55,11 @@ public abstract class FunctionUnit {
         return cdb;
     }
 
-    public void step() {
-        switch (this.status) {
-            case Idle:
-                break; //do nothing
-            case Running:
-                this.step_fu();
-                break;
-            case Finished:
-                if (cdb.set(this.id, this.get_fu_result())) {
-                    this.status = Status.Idle;
-                }
-                break;
-            case Waiting:
-                // may waiting for other function units
-                // should check CDB for data
-                Integer qj = this.reservationStation.getQj();
-                Integer qk = this.reservationStation.getQk();
-                assert qj != null || qk != null;
-                if (qj != null) {
-                    String cdbRes = this.cdb.get(qj);
-                    if (cdbRes != null) {
-                       this.reservationStation.setValueJ(cdbRes);
-                       this.reservationStation.setQj(null);
-                    }
-                }
-                if (qk != null) {
-                    String cdbRes = this.cdb.get(qk);
-                    if (cdbRes != null) {
-                        this.reservationStation.setValueK(cdbRes);
-                        this.reservationStation.setQk(null);
-                    }
-                }
-                if (this.reservationStation.getValueJ() != null && this.reservationStation.getValueK() != null) {
-                    this.status = Status.Running;
-                    this.reservationStation.setBusy(true);
-                }
-        }
-    }
-
     public InstructionInterface getInstruction() {
         return this.instruction;
     }
 
-    public boolean issue(InstructionInterface instruction) throws WAWException, IrregularWriteOperationException, StoppingException, BreakException, FPInvalidOperationException, TwosComplementSumException, JumpException, IrregularStringOfBitsException {
+    public boolean issue(InstructionInterface instruction, int cycle) throws WAWException, IrregularWriteOperationException, StoppingException, BreakException, FPInvalidOperationException, TwosComplementSumException, JumpException, IrregularStringOfBitsException {
         assert this.getStatus() == Status.Idle;
         Integer op1 = instruction.op1();
         Integer op2 = instruction.op2();
@@ -135,6 +96,11 @@ public abstract class FunctionUnit {
             this.reservationStation.setImme(imme);
         }
 
+        instruction.setIssueCycle(cycle);
+        instruction.setFunctionUnit(this.id);
+        instruction.setReservationStation(this.reservationStation);
+        this.status = Status.Issued;
+
         return true;
     }
 
@@ -147,11 +113,7 @@ public abstract class FunctionUnit {
         }
     }
 
-    abstract void step_fu();
-
     public abstract int steps_remain();
-
-    abstract String get_fu_result();
 
     public abstract Type fuType();
 }

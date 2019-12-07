@@ -5,7 +5,7 @@ public class ReservationStation {
     private Type rsType;
 
     private boolean busy;
-    private int op;
+    private String op;
     private String valueJ;
     private String valueK;
     private Integer qj;
@@ -20,11 +20,11 @@ public class ReservationStation {
         this.busy = busy;
     }
 
-    public int getOp() {
+    public String getOp() {
         return op;
     }
 
-    public void setOp(int op) {
+    public void setOp(String op) {
         this.op = op;
     }
 
@@ -70,5 +70,15 @@ public class ReservationStation {
 
     public Type getRsType() {
         return rsType;
+    }
+
+    public void reset() {
+        this.busy = false;
+        this.op = null;
+        this.valueJ = null;
+        this.valueK = null;
+        this.qj = null;
+        this.qk = null;
+        this.imme = null;
     }
 }

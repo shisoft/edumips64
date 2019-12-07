@@ -5,6 +5,7 @@ import org.edumips64.core.fpu.FPDivideByZeroException;
 import org.edumips64.core.fpu.FPInvalidOperationException;
 import org.edumips64.core.fpu.FPOverflowException;
 import org.edumips64.core.fpu.FPUnderflowException;
+import org.edumips64.core.tomasulo.fu.ReservationStation;
 import org.edumips64.core.tomasulo.fu.Type;
 
 /** Interface representing an instruction. It is essentially the view of an instruction
@@ -62,4 +63,17 @@ public interface InstructionInterface {
   Integer op2();
   Integer dest();
   Integer imme();
+
+  Integer getIssueCycle();
+  void setIssueCycle(Integer issueCycle);
+  Integer getExecCycle();
+  void setExecCycle(Integer execCycle);
+  Integer getWBCycle();
+  void setWBCycle(Integer WBCycle);
+  Integer getCountDown();
+  void setCountDown(Integer countDown);
+
+  Integer getFunctionUnit();
+  void setFunctionUnit(int functionUnit);
+  void setReservationStation(ReservationStation reservationStation);
 }
